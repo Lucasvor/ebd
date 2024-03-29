@@ -1,6 +1,7 @@
 ﻿using Ebd.Mobile.Views;
 using Ebd.MobileApp.ViewModels;
 using Ebd.MobileApp.ViewModels.Home;
+using Ebd.MobileApp.ViewModels.Welcome;
 using Ebd.MobileApp.Views.Welcome;
 
 namespace Ebd.MobileApp.Services.Navigation
@@ -87,8 +88,8 @@ namespace Ebd.MobileApp.Services.Navigation
         {
             Application.Current!.MainPage = new CustomNavigationPage(
                 VersionTracking.Default.IsFirstLaunchEver ?
-                new WelcomePage() { BindingContext = new WelcomePageViewModel() } :
-                new HomePage() { BindingContext = new HomeViewModel() });
+                new WelcomePage() :
+                new HomePage());
 
             MainThread.InvokeOnMainThreadAsync(async () => await ((BasePageViewModel)Navigation.NavigationStack[0].BindingContext).Initialize(parameters));
         }

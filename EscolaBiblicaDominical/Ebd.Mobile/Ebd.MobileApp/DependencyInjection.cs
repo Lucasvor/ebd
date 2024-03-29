@@ -8,6 +8,7 @@ using Ebd.Mobile.ViewModels;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.ViewModels.Chamada;
 using Ebd.MobileApp.Network;
+using Ebd.MobileApp.ViewModels.Home;
 
 namespace Ebd.Mobile
 {
@@ -15,14 +16,14 @@ namespace Ebd.Mobile
     {
         public static IServiceCollection ConfigureAndHandleHttpClient(this IServiceCollection services)
         {
-            services.AddSingleton<IPlatformHttpMessageHandler>(_ =>
-            {
-#if ANDROID
-                return new Ebd.MobileApp.Platforms.Android.Network.AndroidHttpMessageHandler();
-#else
-                return new MobileApp.Platforms.iOS.Network.IosHttpMessageHandler();
-#endif
-            });
+            //            services.AddSingleton<IPlatformHttpMessageHandler>(_ =>
+            //            {
+            //#if ANDROID
+            //                return new Ebd.MobileApp.Platforms.Android.Network.AndroidHttpMessageHandler();
+            //#elif IOS
+            //                return new MobileApp.Platforms.iOS.Network.IosHttpMessageHandler();
+            //#endif
+            //            });
             services.AddHttpClient("maui-to-https-localhost", httpClient =>
             {
                 var baseAddress = DynamicBaseUrl.GetAdjustedBaseUrl();

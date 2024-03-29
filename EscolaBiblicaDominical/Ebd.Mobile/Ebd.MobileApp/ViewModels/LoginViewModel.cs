@@ -1,12 +1,9 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Views;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    internal class LoginViewModel : BaseViewModel
     {
         private readonly IBairroService _bairroService;
 

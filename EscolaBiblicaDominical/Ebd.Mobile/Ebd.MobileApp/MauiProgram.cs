@@ -15,6 +15,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSansRegular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSansMedium.ttf", "OpenSansMedium");
                 fonts.AddFont("OpenSansBold.ttf", "OpenSansBold");
+                fonts.AddFont("fa-solid-900.ttf", "FontAwesome");
             })
             .UseMauiCommunityToolkit();
 

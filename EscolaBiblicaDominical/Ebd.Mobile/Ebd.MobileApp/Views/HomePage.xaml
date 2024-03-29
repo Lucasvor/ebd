@@ -1,57 +1,134 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:components="clr-namespace:Ebd.Mobile.Views.Components"
-             xmlns:viewmodels="clr-namespace:Ebd.Mobile.ViewModels"
-             x:Class="Ebd.Mobile.Views.HomePage"
-             Title="Início"
-             BackgroundColor="{StaticResource PrimaryColor}"
-             x:DataType="viewmodels:HomeViewModel">
-    <ContentPage.Content>
-        <StackLayout>
-            <FlexLayout Direction="Column"
-                        BackgroundColor="#E0E0E0"
-                        JustifyContent="Center"
-                        HeightRequest="70">
-                <Label Margin="8,0,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span FontSize="Medium" Text="Welcome, " />
-                            <Span FontSize="Medium" Text="Oziel" FontAttributes="Bold" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-            </FlexLayout>
-            <ScrollView VerticalOptions="Fill">
-                <FlexLayout Direction="Row"
-                            Padding="4"
-                            AlignItems="Start"
-                            Wrap="Wrap"
-                            AlignContent="Start"
-                            JustifyContent="Start">
-                    <Grid Margin="4" 
-                          FlexLayout.AlignSelf="Start"
-                          FlexLayout.Basis="{OnIdiom Phone='50%'}">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" />
-                        </Grid.GestureRecognizers>
-                        <components:MenuCardView IconSource="dotnet_bot.png" Title="Alunos" />
-                    </Grid>
-                    <Grid Margin="4" 
-                           FlexLayout.AlignSelf="Start"
-                           FlexLayout.Basis="{OnIdiom Phone='50%'}">
-                        <components:MenuCardView IconSource="dotnet_bot.png" Title="Professores" />
-                    </Grid>
-                    <Grid Margin="4" 
-                          FlexLayout.AlignSelf="Start"
-                          FlexLayout.Basis="{OnIdiom Phone='50%'}">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToEscolherTurmaPageCommand}" />
-                        </Grid.GestureRecognizers>
-                        <components:MenuCardView IconSource="dotnet_bot.png" Title="Chamada" />
-                    </Grid>
-                </FlexLayout>
-            </ScrollView>
-        </StackLayout>
-    </ContentPage.Content>
+<ContentPage
+    x:Class="Ebd.Mobile.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:Ebd.Mobile.Views.Components"
+    xmlns:icons="clr-namespace:Ebd.MobileApp"
+    xmlns:styles="clr-namespace:Ebd.MobileApp.Resources.Styles"
+    xmlns:viewmodels="clr-namespace:Ebd.MobileApp.ViewModels.Home"
+    Title="Início"
+    x:DataType="viewmodels:HomeViewModel"
+    BackgroundColor="{StaticResource PrimaryColor}">
+    <Grid>
+        <Grid RowDefinitions="*,1.75*">
+            <Grid
+                Grid.Row="0"
+                Padding="40,0"
+                BackgroundColor="#131313"
+                ColumnDefinitions="*,Auto"
+                RowDefinitions="*,Auto,Auto,Auto,4*">
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontFamily="SoraRegular"
+                    Text="Location"
+                    TextColor="#B7B7B7" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    FontFamily="SoraSemiBold"
+                    Text="Bilzen, Tanjungbalai"
+                    TextColor="#DDDDDD" />
+
+                <Border
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    BackgroundColor="#ffffff"
+                    HeightRequest="44"
+                    StrokeShape="RoundRectangle 11"
+                    StrokeThickness="0"
+                    WidthRequest="44" />
+            </Grid>
+        </Grid>
+        <Grid RowDefinitions="*,80">
+            <Border
+                Grid.Row="1"
+                Margin="-0.40,0"
+                BackgroundColor="#FFFFFF"
+                StrokeShape="RoundRectangle 20,20,0,0"
+                StrokeThickness="0">
+
+                <Grid
+                    ColumnDefinitions="*,Auto,*,Auto,*,Auto,*,Auto,*"
+                    RowDefinitions="Auto,*"
+                    VerticalOptions="Center">
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="FontAwesome"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="{x:Static icons:FontAwesomeIcon.House}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontFamily="{x:Static styles:FontFamily.Regular}"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Início"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Grid.Column="3"
+                        FontFamily="FontAwesome"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="{x:Static icons:FontAwesomeIcon.ClipboardList}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        FontFamily="{x:Static styles:FontFamily.Regular}"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Turmas"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Grid.Column="5"
+                        FontFamily="FontAwesome"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="{x:Static icons:FontAwesomeIcon.ClipboardUser}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        FontFamily="{x:Static styles:FontFamily.Regular}"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Chamada"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Grid.Column="7"
+                        FontFamily="FontAwesome"
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="{x:Static icons:FontAwesomeIcon.User}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="7"
+                        FontFamily="{x:Static styles:FontFamily.Regular}"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Profile"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
 </ContentPage>

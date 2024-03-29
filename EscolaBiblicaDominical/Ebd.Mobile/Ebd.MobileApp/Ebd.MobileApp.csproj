@@ -57,8 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Remove="Services\Navigation\CustomNavigationPage.xaml" />
-	  <MauiXaml Remove="Views\Welcome\WelcomePage.xaml" />
+	  <Compile Remove="Resources\Fonts\IconFont.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,12 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Services\Navigation\CustomNavigationPage.xaml">
-	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Views\Welcome\WelcomePage.xaml">
-	    <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-	  </EmbeddedResource>
+	  <MauiFont Include="Resources\Styles\FontAwesomeIcon.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -159,6 +153,9 @@
 	  <MauiXaml Update="Controls\BottomSheetControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Services\Navigation\CustomNavigationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\AboutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -199,6 +196,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\NewItemPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Welcome\WelcomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

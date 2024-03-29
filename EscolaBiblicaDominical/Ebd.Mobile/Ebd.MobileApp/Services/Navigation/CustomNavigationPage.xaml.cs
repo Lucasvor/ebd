@@ -1,4 +1,4 @@
-﻿namespace Ebd.MobileApp.Services.Navigation;
+namespace Ebd.MobileApp.Services.Navigation;
 
 public partial class CustomNavigationPage : NavigationPage
 {

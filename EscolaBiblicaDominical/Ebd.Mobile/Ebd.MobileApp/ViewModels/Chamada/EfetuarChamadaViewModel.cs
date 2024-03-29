@@ -9,14 +9,7 @@ using Ebd.Mobile.Services.Responses.Chamada;
 using Ebd.Mobile.Services.Responses.Turma;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels.Chamada
 {
@@ -38,6 +31,13 @@ namespace Ebd.Mobile.ViewModels.Chamada
             _alunoService = alunoService;
             _avaliacaoService = avaliacaoService;
             _chamadaService = chamadaService;
+        }
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         public int LicaoId { get; set; }

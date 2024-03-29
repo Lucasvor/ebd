@@ -4,19 +4,13 @@ using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Turma;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
-using System;
-using System.Collections.Generic;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels.Aluno
 {
     [QueryProperty(nameof(Turma), nameof(Turma))]
     [QueryProperty(nameof(Alunos), nameof(Alunos))]
-    public class ListaAlunoViewModel : BaseViewModel
+    internal class ListaAlunoViewModel : BaseViewModel
     {
         private readonly IAlunoService _alunoService;
         private readonly ITurmaService _turmaService;
@@ -26,6 +20,13 @@ namespace Ebd.Mobile.ViewModels.Aluno
             Title = "Alunos";
             _turmaService = turmaService;
             _alunoService = alunoService;
+        }
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         public ObservableRangeCollection<AlunoResponse> Alunos { get; private set; } = new ObservableRangeCollection<AlunoResponse>();

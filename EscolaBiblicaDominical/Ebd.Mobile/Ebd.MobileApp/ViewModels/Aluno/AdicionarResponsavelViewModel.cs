@@ -3,10 +3,17 @@ using Ebd.Mobile.Services.Interfaces;
 
 namespace Ebd.Mobile.ViewModels.Aluno
 {
-    public class AdicionarResponsavelViewModel : BaseViewModel
+    internal class AdicionarResponsavelViewModel : BaseViewModel
     {
         public AdicionarResponsavelViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger) : base(diagnosticService, dialogService, logger)
         {
+        }
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         private bool formIsValid;

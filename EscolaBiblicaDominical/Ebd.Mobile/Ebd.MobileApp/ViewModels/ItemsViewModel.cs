@@ -1,16 +1,12 @@
 ﻿using Ebd.Mobile.Models;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Views;
-using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
 
 namespace Ebd.Mobile.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    internal class ItemsViewModel : BaseViewModel
     {
         private Item _selectedItem;
 
@@ -28,6 +24,13 @@ namespace Ebd.Mobile.ViewModels
             ItemTapped = new Command<Item>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
+        }
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         async Task ExecuteLoadItemsCommand()

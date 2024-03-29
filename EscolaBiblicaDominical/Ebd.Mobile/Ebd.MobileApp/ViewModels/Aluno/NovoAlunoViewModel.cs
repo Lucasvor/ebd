@@ -21,7 +21,7 @@ using System.Windows.Input;
 namespace Ebd.Mobile.ViewModels.Aluno
 {
     [QueryProperty(nameof(Turma), nameof(Turma))]
-    public class NovoAlunoViewModel : BaseViewModel
+    internal class NovoAlunoViewModel : BaseViewModel
     {
         private readonly IAlunoService _alunoService;
         private readonly IBairroService _bairroService;
@@ -33,11 +33,18 @@ namespace Ebd.Mobile.ViewModels.Aluno
         public NovoAlunoViewModel(ITurmaService turmaService, IAlunoService alunoService, IBairroService bairroService, ICepService cepService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
         {
             _turmaService = turmaService;
-            Title = "Adicionar aluno";
             _alunoService = alunoService;
             _bairroService = bairroService;
             _cepService = cepService;
+            Title = "Adicionar aluno";
             Responsaveis = new ObservableCollection<PessoaResponsavelRequest>();
+        }
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => SetProperty(ref title, value);
         }
 
         private string turma;
