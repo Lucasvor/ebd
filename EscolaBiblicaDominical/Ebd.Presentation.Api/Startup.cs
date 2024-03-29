@@ -43,11 +43,16 @@ namespace Ebd.Presentation.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ebd.Presentation.Api v1");
+                var applicationPath = Configuration.GetValue<string>("AppPath") ?? string.Empty;
+                c.SwaggerEndpoint($"{applicationPath}/swagger/v1/swagger.json", "Ebd.Presentation.Api v1");
                 c.RoutePrefix = string.Empty;
             });
 

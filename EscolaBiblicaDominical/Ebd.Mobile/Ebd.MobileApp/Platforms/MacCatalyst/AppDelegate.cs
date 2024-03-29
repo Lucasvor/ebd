@@ -1,0 +1,11 @@
+﻿using Ebd.Mobile;
+using Foundation;
+
+namespace Ebd.MobileApp
+{
+    [Register("AppDelegate")]
+    public class AppDelegate : MauiUIApplicationDelegate
+    {
+        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+    }
+}

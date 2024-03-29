@@ -17,10 +17,10 @@ namespace Ebd.Infra.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
                 {
@@ -28,12 +28,9 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlunoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlunoId"));
 
                     b.Property<int>("PessoaId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ResponsavelId")
                         .HasColumnType("int");
 
                     b.Property<int>("TurmaId")
@@ -42,8 +39,6 @@ namespace Ebd.Infra.Data.Migrations
                     b.HasKey("AlunoId");
 
                     b.HasIndex("PessoaId");
-
-                    b.HasIndex("ResponsavelId");
 
                     b.HasIndex("TurmaId");
 
@@ -56,7 +51,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoId"));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -77,7 +72,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoAlunoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AvaliacaoAlunoId"));
 
                     b.Property<int>("AlunoId")
                         .HasColumnType("int");
@@ -105,7 +100,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BairroId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BairroId"));
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -125,7 +120,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChamadaId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChamadaId"));
 
                     b.Property<int>("AlunoId")
                         .HasColumnType("int");
@@ -154,7 +149,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoId"));
 
                     b.Property<int>("Classificacao")
                         .HasColumnType("int");
@@ -183,7 +178,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnderecoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EnderecoId"));
 
                     b.Property<int>("BairroId")
                         .HasColumnType("int");
@@ -224,7 +219,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LicaoId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LicaoId"));
 
                     b.Property<int>("RevistaId")
                         .HasColumnType("int");
@@ -247,10 +242,10 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PessoaId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PessoaId"));
 
                     b.Property<DateTime>("NascidoEm")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -273,7 +268,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessorId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProfessorId"));
 
                     b.Property<int>("PessoaId")
                         .HasColumnType("int");
@@ -290,13 +285,42 @@ namespace Ebd.Infra.Data.Migrations
                     b.ToTable("Professor", (string)null);
                 });
 
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.ResponsavelAluno", b =>
+                {
+                    b.Property<int>("ResponsavelAlunoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResponsavelAlunoId"));
+
+                    b.Property<int>("AlunoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResponsavelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResponsavelPessoaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TipoResponsavel")
+                        .HasColumnType("int");
+
+                    b.HasKey("ResponsavelAlunoId");
+
+                    b.HasIndex("ResponsavelId");
+
+                    b.HasIndex("ResponsavelPessoaId");
+
+                    b.ToTable("ResponsavelAluno", (string)null);
+                });
+
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.Property<int>("RevistaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RevistaId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RevistaId"));
 
                     b.Property<int>("Ano")
                         .HasColumnType("int");
@@ -330,7 +354,7 @@ namespace Ebd.Infra.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TurmaId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TurmaId"));
 
                     b.Property<int>("IdadeMaxima")
                         .HasColumnType("int");
@@ -356,10 +380,6 @@ namespace Ebd.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ebd.Domain.Core.Entities.Pessoa", "Responsavel")
-                        .WithMany()
-                        .HasForeignKey("ResponsavelId");
-
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
                         .WithMany()
                         .HasForeignKey("TurmaId")
@@ -367,8 +387,6 @@ namespace Ebd.Infra.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Pessoa");
-
-                    b.Navigation("Responsavel");
 
                     b.Navigation("Turma");
                 });
@@ -479,6 +497,25 @@ namespace Ebd.Infra.Data.Migrations
                     b.Navigation("Turma");
                 });
 
+            modelBuilder.Entity("Ebd.Domain.Core.Entities.ResponsavelAluno", b =>
+                {
+                    b.HasOne("Ebd.Domain.Core.Entities.Aluno", "Aluno")
+                        .WithMany("Responsaveis")
+                        .HasForeignKey("ResponsavelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ebd.Domain.Core.Entities.Pessoa", "Responsavel")
+                        .WithMany()
+                        .HasForeignKey("ResponsavelPessoaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Responsavel");
+                });
+
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Revista", b =>
                 {
                     b.HasOne("Ebd.Domain.Core.Entities.Turma", "Turma")
@@ -493,6 +530,8 @@ namespace Ebd.Infra.Data.Migrations
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Aluno", b =>
                 {
                     b.Navigation("AvaliacoesAluno");
+
+                    b.Navigation("Responsaveis");
                 });
 
             modelBuilder.Entity("Ebd.Domain.Core.Entities.Avaliacao", b =>

@@ -342,3 +342,7 @@ healthchecksdb
 
 # Mine ignore files list
 *Designer.cs
+EscolaBiblicaDominical/.DS_Store
+.DS_Store
+EscolaBiblicaDominical/Ebd.Mobile/Ebd.MobileApp/.meteor
+.vscode

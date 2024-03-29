@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.1.0" />
+    <PackageReference Include="FluentValidation" Version="11.5.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ebd.CrossCutting.Common\Ebd.CrossCutting.Common.csproj" />
     <ProjectReference Include="..\Ebd.Domain.Core\Ebd.Domain.Core.csproj" />
   </ItemGroup>
 

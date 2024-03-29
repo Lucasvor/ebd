@@ -15,79 +15,79 @@ trigger:
 - release*
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 variables:
   buildConfiguration: 'Release'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  dotnetSdkVersion: '7.x'
+  Parameters.RestoreBuildProjects: '**/Ebd.Presentation.Api.csproj'
 
 steps:
-- bash: |
-    echo Debugging
-    echo "reason $(Build.Reason)"
-    echo "source $(System.PullRequest.SourceBranch)"
-    echo "target $(System.PullRequest.TargetBranch)"
-  displayName: Debugging
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
+  inputs:
+    packageType: sdk
+    version: '$(dotnetSdkVersion)'
+    installationPath: $(Agent.ToolsDirectory)/dotnet  
 
-- script: |
-    echo Debugging
-    echo "reason $(variables['Build.Reason'])"
-    echo "source $(variables['System.PullRequest.SourceBranch'])"
-    echo "target $(variables['System.PullRequest.TargetBranch'])"
-  displayName: Debugging
+- task: DotNetCoreCLI@2 # Restore the project
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '$(Parameters.RestoreBuildProjects)'
 
-- script: |
-    echo Should bump version
-  displayName: Checking a PR- INcrement minor
-  condition: eq(variables['System.PullRequest.SourceBranch'], 'refs/heads/develop')
-
-- script: |
-    echo Should bump version
-  displayName: Checking a PR- INcrement pacth
-  condition: eq(variables['System.PullRequest.SourceBranch'], 'refs/heads/release')
-
-# - task: UseDotNet@2
-#   displayName: 'Install .NET Core sdk 6.x'
+- task: DotNetCoreCLI@2 # Build the project
+  displayName: Build
+  inputs:
+    projects: '$(Parameters.RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration) --no-restore'
+    
+# - task: DotNetCoreCLI@2 # This task for test
+#   displayName: Test
 #   inputs:
-#     packageType: 'sdk'
-#     version: 6.x
+#     command: test
+#     projects: '$(Parameters.TestProjects)'
+#     arguments: '--configuration $(BuildConfiguration)'
+#   enabled: false # Not enabled coz the project does not have a test
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'Restore'
+- task: DotNetCoreCLI@2
+  displayName: 'Publish files'
+  inputs:
+    command: 'publish'
+    projects: '$(Parameters.RestoreBuildProjects)'
+    publishWebProjects: false
+    zipAfterPublish: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-build'
+
+# - task: CopyFiles@2
+#   displayName: 'Copy Files to -> $(Build.ArtifactStagingDirectory)'
 #   inputs:
-#     command: 'restore'
-#     projects: |
-#       **/Ebd.Domain.Core.csproj
-#       **/Ebd.Infra.Data.csproj
-#       **/Ebd.CrossCutting.IoC.csproj
-#       **/Ebd.Application.csproj
-#     feedsToUse: 'select'
+#     SourceFolder: '$(Build.SourcesDirectory)'
+#     Contents: '**'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'Build'
-#   inputs:
-#     command: 'build'
-#     projects: |
-#       **/Ebd.Domain.Core.csproj
-#       **/Ebd.Infra.Data.csproj
-#       **/Ebd.CrossCutting.IoC.csproj
-#       **/Ebd.Application.csproj
-#     arguments: '-o $(Build.ArtifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Build Artifacts $(Build.BuildNumber) $(Build.ArtifactStagingDirectory)'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  condition: succeeded()
 
-# - task: DotNetCoreCLI@2
-#   displayName: 'Publish files'
-#   inputs:
-#     command: 'publish'
-#     projects: '**/Ebd.Presentation.Api.csproj'
-#     publishWebProjects: true
-#     arguments: '-o $(Build.ArtifactStagingDirectory)'
+- task: AzureRmWebAppDeployment@4
+  displayName: Deploy on admp.azurewebsites.net
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'GTech(1)(b42a60f5-3c02-4a26-851c-36d2273fb56a)'
+    appType: 'webApp'
+    WebAppName: 'admp'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    StartupCommand: 'dotnet Ebd.Presentation.Api.dll'
+  condition: succeeded()
 
-# - task: PublishBuildArtifacts@1
-#   displayName: 'Publish Build Artifacts $(Build.ArtifactStagingDirectory)'
-#   inputs:
-#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#     ArtifactName: 'drop'
-#     publishLocation: 'Container'
-
+# THIS IS TO PUBLISH ON AZURE APP SERVICE
 # - task: AzureRmWebAppDeployment@4
 #   inputs:
 #     ConnectionType: 'AzureRM'
