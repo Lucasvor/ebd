@@ -24,10 +24,14 @@ public static class MauiProgram
             .ConfigureServices()
             .ConfigureRepositories()
             .ConfigureViewModels()
+            .ConfigurePages()
             .BuildServiceProvider();
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-        return builder.Build();
+        var app = builder.Build();
+        DependencyInjection.Initialize(app.Services);
+
+        return app;
     }
 }

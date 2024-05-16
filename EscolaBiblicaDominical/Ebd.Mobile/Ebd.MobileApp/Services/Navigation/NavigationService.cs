@@ -1,7 +1,7 @@
-﻿using Ebd.Mobile.Views;
+﻿using Ebd.Mobile;
+using Ebd.Mobile.Views;
 using Ebd.MobileApp.ViewModels;
 using Ebd.MobileApp.ViewModels.Home;
-using Ebd.MobileApp.ViewModels.Welcome;
 using Ebd.MobileApp.Views.Welcome;
 
 namespace Ebd.MobileApp.Services.Navigation
@@ -25,7 +25,7 @@ namespace Ebd.MobileApp.Services.Navigation
 
         void CreateViewModelMappings()
         {
-            _mappings.Add(typeof(WelcomeViewModel), typeof(WelcomePage));
+            _mappings.Add(typeof(ViewModels.Welcome.WelcomeViewModel), typeof(WelcomePage));
             _mappings.Add(typeof(HomeViewModel), typeof(HomePage));
         }
 
@@ -38,26 +38,26 @@ namespace Ebd.MobileApp.Services.Navigation
 
                 var viewModelType = typeof(TViewModel);
 
-                var page = (Page)CreateAndBindPage(viewModelType);
+                var page = CreateAndBindPage(viewModelType);
 
                 if (viewModelType == typeof(HomeViewModel))
                 {
                     pagesToRemove = Navigation.NavigationStack?.ToList();
                 }
 
-
                 if (viewModelType.BaseType == typeof(BaseModalViewModel))
                     await Navigation.PushModalAsync(page, animated);
                 else
                     await Navigation.PushAsync(page, animated);
 
-                await ((BasePageViewModel)page.BindingContext).Initialize(parameter);
+                await ((BasePageViewModel)page.BindingContext).OnAppearingAsync(parameter);
 
                 if (pagesToRemove is not null)
                 {
                     foreach (var pageToRemove in pagesToRemove)
                     {
-                        Navigation.RemovePage(pageToRemove);
+                        if (Navigation.NavigationStack?.Contains(pageToRemove) ?? false)
+                            Navigation.RemovePage(pageToRemove);
                     }
                 }
             }
@@ -67,31 +67,36 @@ namespace Ebd.MobileApp.Services.Navigation
             }
         }
 
-        private BindableObject CreateAndBindPage(Type viewModelType)
+        public void Initialize(object? parameters = null)
         {
-            // Identifique qual é a página que está mapeada para esta ViewModel
+            Page page;
+            if (VersionTracking.Default.IsFirstLaunchEver)
+            {
+                page = DependencyInjection.GetService<WelcomePage>();
+            }
+            else
+            {
+                page = DependencyInjection.GetService<HomePage>();
+            }
+            Application.Current!.MainPage = new CustomNavigationPage(page);
+
+            MainThread.InvokeOnMainThreadAsync(async () => await ((BasePageViewModel)Navigation.NavigationStack[0].BindingContext).OnAppearingAsync(parameters));
+        }
+
+        private Page CreateAndBindPage(Type viewModelType)
+        {
             var pageType = _mappings!.ContainsKey(viewModelType) ?
                 _mappings[viewModelType] :
                 throw new KeyNotFoundException(message: "A ViewModel de destino não possui um mapeamento registrado");
 
             // Criar uma instância da página através do tipo da página
-            var page = (BindableObject?)Activator.CreateInstance(pageType)
+            var page = DependencyInjection.GetByType<Page>(pageType)
                 ?? throw new NullReferenceException(message: $"Não foi possível criar uma instância da página {pageType.Name}");
 
             // "Bindar" uma instância da minha ViewModel para a página instanciada
-            page.BindingContext = Activator.CreateInstance(viewModelType) as BasePageViewModel;
+            page.BindingContext = DependencyInjection.GetByType<BasePageViewModel>(viewModelType);
 
             return page;
-        }
-
-        public void Initialize(object? parameters = null)
-        {
-            Application.Current!.MainPage = new CustomNavigationPage(
-                VersionTracking.Default.IsFirstLaunchEver ?
-                new WelcomePage() :
-                new HomePage());
-
-            MainThread.InvokeOnMainThreadAsync(async () => await ((BasePageViewModel)Navigation.NavigationStack[0].BindingContext).Initialize(parameters));
         }
     }
 }

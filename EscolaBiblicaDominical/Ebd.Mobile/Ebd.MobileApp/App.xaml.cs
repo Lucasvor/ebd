@@ -1,17 +1,14 @@
-﻿using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.MobileApp.Services.Navigation;
 
 namespace Ebd.Mobile
 {
     public partial class App : Application
     {
-        private readonly ILoggerService loggerService;
-
-        public App(ILoggerService loggerService)
+        public App()
         {
             InitializeComponent();
-            this.loggerService = loggerService;
 
-            MainPage = new AppShell();
+            NavigationService.Current.Initialize();
         }
 
         protected override void OnStart()

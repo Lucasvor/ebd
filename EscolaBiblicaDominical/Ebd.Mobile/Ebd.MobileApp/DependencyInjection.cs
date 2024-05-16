@@ -7,13 +7,20 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.ViewModels;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.ViewModels.Chamada;
+using Ebd.Mobile.Views;
+using Ebd.Mobile.Views.Aluno;
+using Ebd.Mobile.Views.Chamada;
 using Ebd.MobileApp.Network;
 using Ebd.MobileApp.ViewModels.Home;
+using Ebd.MobileApp.ViewModels.Welcome;
+using Ebd.MobileApp.Views.Welcome;
 
 namespace Ebd.Mobile
 {
     public static class DependencyInjection
     {
+        public static IServiceProvider? Services { get; private set; }
+
         public static IServiceCollection ConfigureAndHandleHttpClient(this IServiceCollection services)
         {
             //            services.AddSingleton<IPlatformHttpMessageHandler>(_ =>
@@ -68,9 +75,27 @@ namespace Ebd.Mobile
             return services;
         }
 
+        public static IServiceCollection ConfigurePages(this IServiceCollection services)
+        {
+            services.AddTransient<WelcomePage>();
+            services.AddTransient<HomePage>();
+            services.AddTransient<ListaAlunoPage>();
+            services.AddTransient<ItemsPage>();
+            services.AddTransient<LoginPage>();
+            services.AddTransient<NewItemPage>();
+            services.AddTransient<ItemDetailPage>();
+            services.AddTransient<AboutPage>();
+            services.AddTransient<EfetuarChamadaPage>();
+            services.AddTransient<EscolherTurmaPage>();
+            services.AddTransient<NovoAlunoPage>();
+            services.AddTransient<AdicionarResponsavelPage>();
+
+            return services;
+        }
+
         public static IServiceCollection ConfigureViewModels(this IServiceCollection services)
         {
-            //ViewModels
+            services.AddTransient<WelcomeViewModel>();
             services.AddTransient<HomeViewModel>();
             services.AddTransient<ListaAlunoViewModel>();
             services.AddTransient<ItemsViewModel>();
@@ -86,17 +111,23 @@ namespace Ebd.Mobile
             return services;
         }
 
-        public static TService GetService<TService>() => Current.GetService<TService>() ?? throw new ArgumentNullException("Service não registrado");
+        public static TService GetService<TService>()
+        {
+            var instance = Services!.GetService<TService>();
 
-        public static IServiceProvider Current =>
-#if WINDOWS10_0_17763_0_OR_GREATER
-        MauiWinUIApplication.Current.Services;
-#elif ANDROID
-            MauiApplication.Current.Services;
-#elif IOS || MACCATALYST
-        MauiUIApplicationDelegate.Current.Services;
-#else
-        null;
-#endif
+            return instance ?? throw new ArgumentNullException("Service não registrado");
+        }
+
+        public static void Initialize(IServiceProvider serviceProvider) => Services = serviceProvider;
+
+        internal static T GetByType<T>(Type type)
+        {
+            var instance = Services!.GetService(type);
+
+            if (instance is T instanceT)
+                return instanceT;
+
+            throw new ArgumentNullException("Service não registrado");
+        }
     }
 }
