@@ -21,6 +21,28 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
+        },
+        {
+            "name": ".NET MAUI iOS Simulator",
+            "type": "maui",
+            "request": "launch",
+            "platform": "ios",
+            "device": "simulator",
+            "target": "iossimulator",
+            "sourceFileMap": {
+                "/": "${workspaceFolder}/EscolaBiblicaDominical/Ebd.Mobile/Ebd.MobileApp"
+            }
+        },
+        {
+            "name": ".NET MAUI Android Emulator",
+            "type": "maui",
+            "request": "launch",
+            "platform": "android",
+            "device": "emulator",
+            "target": "androidemulator",
+            "sourceFileMap": {
+                "/": "${workspaceFolder}/EscolaBiblicaDominical/Ebd.Mobile/Ebd.MobileApp"
+            }
         }
     ]
 }
