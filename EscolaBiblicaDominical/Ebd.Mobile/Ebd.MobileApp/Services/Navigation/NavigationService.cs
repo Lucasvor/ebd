@@ -61,8 +61,9 @@ namespace Ebd.MobileApp.Services.Navigation
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw;
             }
         }
@@ -76,7 +77,7 @@ namespace Ebd.MobileApp.Services.Navigation
             }
             else
             {
-                page = DependencyInjection.GetService<HomePage>();
+                page = DependencyInjection.GetService<LoginPage>();
             }
             Application.Current!.MainPage = new CustomNavigationPage(page);
 

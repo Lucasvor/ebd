@@ -11,6 +11,7 @@ using Ebd.Mobile.Views;
 using Ebd.Mobile.Views.Aluno;
 using Ebd.Mobile.Views.Chamada;
 using Ebd.MobileApp.Network;
+using Ebd.MobileApp.Services.Implementations;
 using Ebd.MobileApp.ViewModels.Home;
 using Ebd.MobileApp.ViewModels.Welcome;
 using Ebd.MobileApp.Views.Welcome;
@@ -64,6 +65,7 @@ namespace Ebd.Mobile
             services.AddSingleton<IRevistaService, RevistaService>();
             services.AddSingleton<ISyncService, SyncService>();
             services.AddSingleton<ITurmaService, TurmaService>();
+            services.AddSingleton<IUsuarioService, UsuarioService>();
 
             return services;
         }

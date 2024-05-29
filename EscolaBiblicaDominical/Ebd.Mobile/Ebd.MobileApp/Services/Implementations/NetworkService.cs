@@ -78,8 +78,8 @@ namespace Ebd.Mobile.Services.Implementations
 
         public HttpClient GetHttpClient()
         {
-            if (IsDeviceEmulator())
-                return _httpClientFactory.CreateClient("maui-to-https-localhost");
+            //if (IsDeviceEmulator())
+            //    return _httpClientFactory.CreateClient("maui-to-https-localhost");
 
             return new HttpClient
             {

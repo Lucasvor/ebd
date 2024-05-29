@@ -6,7 +6,7 @@ namespace Ebd.MobileApp.Network
     {
         public static string GetAdjustedBaseUrl()
         {
-            var baseUrl = AppConstant.BaseUrl;
+            var baseUrl = ConfigurationConstant.BaseUrl;
             var uri = new Uri(baseUrl);
 #if ANDROID
             if (uri.Host == "localhost" || uri.Host == "127.0.0.1")

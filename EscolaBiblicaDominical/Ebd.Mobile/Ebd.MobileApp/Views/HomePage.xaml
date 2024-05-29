@@ -9,7 +9,7 @@
     xmlns:viewmodels="clr-namespace:Ebd.MobileApp.ViewModels.Home"
     Title="Início"
     x:DataType="viewmodels:HomeViewModel"
-    BackgroundColor="{StaticResource PrimaryColor}">
+    BackgroundColor="{StaticResource Primary}">
     <Grid>
         <Grid RowDefinitions="*,1.75*">
             <Grid

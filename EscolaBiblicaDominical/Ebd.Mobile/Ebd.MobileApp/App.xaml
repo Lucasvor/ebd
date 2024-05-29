@@ -18,11 +18,6 @@
             <Thickness x:Key="ContentPadding">20, 0</Thickness>
 
             <!--  Colors  -->
-            <Color x:Key="AppBackgroundColor">#F5F5F5</Color>
-            <Color x:Key="PrimaryColor">#1976D2</Color>
-            <Color x:Key="PrimaryTextColor">#F5F5F5</Color>
-            <Color x:Key="SecondaryColor">#FF5733</Color>
-
             <Color x:Key="StatusbarColor">#123456</Color>
             <Color x:Key="NavBarColor">#1976D2</Color>
             <Color x:Key="NavigationBarTextColor">#5D5D5D</Color>
@@ -44,7 +39,7 @@
                 <Setter Property="IsEnabled" Value="False" />
             </Style>
             <Style x:Key="ButtonIsEnabled" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="TextColor" Value="#FFFFFF" />
                 <Setter Property="IsEnabled" Value="True" />
             </Style>
@@ -65,7 +60,7 @@
             </Style>
             <Style ApplyToDerivedTypes="True" TargetType="Button">
                 <Setter Property="FontSize" Value="Caption" />
-                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
                 <Setter Property="CornerRadius" Value="5" />
             </Style>
@@ -76,7 +71,7 @@
             </Style>
 
             <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="{StaticResource AppBackgroundColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="ios:Page.UseSafeArea" Value="False" />
                 <Setter Property="NavigationPage.BackButtonTitle" Value="" />
 
@@ -91,7 +86,7 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Disabled">
@@ -103,6 +98,10 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>-->
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

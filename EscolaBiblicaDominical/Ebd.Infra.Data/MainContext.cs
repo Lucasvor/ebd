@@ -97,6 +97,7 @@ namespace Ebd.Infra.Data
 
             return builder;
         }
+        
         private DbContextOptionsBuilder ConfigureMySqlConnection(DbContextOptionsBuilder builder)
         {
             const int tableDoesNotExist = 1146;

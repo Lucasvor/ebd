@@ -6,7 +6,7 @@
              xmlns:converters="clr-namespace:Ebd.Mobile.Converters"
              x:Class="Ebd.Mobile.Views.Aluno.ListaAlunoPage"
              Title="{Binding Title}"
-             BackgroundColor="{StaticResource AppBackgroundColor}"
+             BackgroundColor="{StaticResource Primary}"
              x:DataType="vm:ListaAlunoViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -22,7 +22,7 @@
                 <StackLayout>
                     <Label Text="Turma" />
                     <Picker Title="Selecione uma turma"
-                            TitleColor="{StaticResource PrimaryColor}"
+                            TitleColor="{StaticResource Primary}"
                             ItemsSource="{Binding Turmas}"
                             SelectedItem="{Binding TurmaSelecionada}"
                             ItemDisplayBinding="{Binding FaixaIdadeNome}"/>
@@ -61,7 +61,7 @@
             
             <Button Text="+  Novo"
                     FontAttributes="Bold" 
-                    BackgroundColor="{StaticResource PrimaryColor}" 
+                    BackgroundColor="{StaticResource Primary}" 
                     CornerRadius="35"
                     TextColor="{StaticResource PrimaryTextColor}"
                     HorizontalOptions="End" 

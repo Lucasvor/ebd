@@ -45,7 +45,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
         public async Task<BaseResponse<T>> GetAndRetry<T>(string requestUri, int retryCount, Func<Exception, int, Task> onRetry = null, string accessToken = null) where T : class
         {
             if ((await _networkService.HasInternetConnection()).Not())
-                return new BaseResponse<T>(new NoInternetConnectionException());
+                return BaseResponse<T>.Falha(new NoInternetConnectionException());
 
             TryAddAuthorization(accessToken);
             var func = new Func<Task<BaseResponse<T>>>(() => ProcessGetRequest<T>(requestUri));
@@ -68,7 +68,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
             where TResponse : class
         {
             if ((await _networkService.HasInternetConnection()).Not())
-                return new BaseResponse<TResponse>(new NoInternetConnectionException());
+                return BaseResponse<TResponse>.Falha(new NoInternetConnectionException());
 
             TryAddAuthorization(accessToken);
             var func = new Func<Task<BaseResponse<TResponse>>>(() => ProcessPostRequest<TRequest, TResponse>(requestUri, request));
@@ -152,7 +152,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
                     ExceptionFromHttpStatusCode(responseMessage, responseContent);
 
                 if (string.IsNullOrWhiteSpace(responseContent))
-                    return new BaseResponse<TResponse>(new EmptyResponseException());
+                    return BaseResponse<TResponse>.Falha(new EmptyResponseException());
 
                 return new BaseResponse<TResponse>(JsonSerializer.Deserialize<TResponse>(responseContent, _jsonSerializerOptions));
             }
@@ -164,7 +164,7 @@ namespace Ebd.Mobile.Services.Implementations.Base
                         { "responseMessage", JsonSerializer.Serialize(responseMessage) }
                     });
 
-                return new BaseResponse<TResponse>(ex);
+                return BaseResponse<TResponse>.Falha(ex);
             }
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ebd.Mobile.Services.Responses
+﻿namespace Ebd.Mobile.Services.Responses
 {
     public class BaseResponse<T> : AbstractResponse
     {
@@ -19,6 +17,10 @@ namespace Ebd.Mobile.Services.Responses
         public bool IsSuccess { get; private set; }
         public bool HasError => !IsSuccess;
         public T Data { get; private set; }
+
+        public static BaseResponse<T> Sucesso(T data) => new BaseResponse<T>(data);
+
+        public static BaseResponse<T> Falha(Exception exception) => new BaseResponse<T>(exception);
 
         public Exception Exception { get; private set; }
     }

@@ -3,8 +3,6 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Aluno;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Aluno;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
