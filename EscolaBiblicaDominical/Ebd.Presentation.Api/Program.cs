@@ -1,11 +1,14 @@
+using Ebd.Presentation.Api.Extensions;
+using log4net;
+using log4net.Config;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace Ebd.Presentation.Api
 {
@@ -55,14 +58,17 @@ namespace Ebd.Presentation.Api
 
         private static void ConfigureLog(ILoggingBuilder builder)
         {
-            builder.Services.AddLogging(loggingBuilder =>
+            var log4NetConfig = new FileInfo("log4net.config");
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            XmlConfigurator.Configure(logRepository, log4NetConfig);
+
+            builder.SetMinimumLevel(LogLevel.Trace);
+            builder.AddLog4Net();
+            builder.AddColorConsoleLogger(configuration =>
             {
-                loggingBuilder.AddEventLog(options =>
-                {
-                    options.SourceName = "Ebd";
-                });
-                builder.AddLog4Net("log4net.config");
-                loggingBuilder.AddSerilog();
+                configuration.LogLevels.Add(LogLevel.Warning, ConsoleColor.DarkYellow);
+                configuration.LogLevels.Add(LogLevel.Error, ConsoleColor.DarkMagenta);
+                configuration.LogLevels.Add(LogLevel.Critical, ConsoleColor.Red);
             });
         }
     }
