@@ -1,6 +1,5 @@
 ﻿using Ebd.Mobile.Services.Implementations.Base;
 using Ebd.Mobile.Services.Interfaces;
-using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
@@ -19,11 +18,11 @@ namespace Ebd.Mobile.Services.Implementations
         {
             var turmasResponse = await turmaService.ObterTodasAsync();
             if (turmasResponse.IsSuccess) loggerService.LogError("Dados de turmas sincronizados");
-            else loggerService.LogError("Erro ao tentar syncronizar as turmas", turmasResponse.Exception);
+            else loggerService.LogError("Erro ao tentar sincronizar as turmas", turmasResponse.Exception);
 
             var bairrosResponse = await bairroService.ObterTodosAsync();
             if (bairrosResponse.IsSuccess) loggerService.LogError("Dados de bairros sincronizados");
-            else loggerService.LogError("Erro ao tentar syncronizar os bairros", bairrosResponse.Exception);
+            else loggerService.LogError("Erro ao tentar sincronizar os bairros", bairrosResponse.Exception);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Ebd.Mobile.Constants;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.Views.Chamada;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
@@ -64,7 +64,11 @@ namespace Ebd.MobileApp.ViewModels.Home
 
         private async Task ExecuteGoToAlunoPageCommand()
         {
-            await Shell.Current.GoToAsync(PageConstant.Aluno.Lista);
+            if (IsBusy) return;
+            IsBusy = true;
+            await Navigate<ListaAlunoViewModel>();
+            //await Shell.Current.GoToAsync(PageConstant.Aluno.Lista);
+            IsBusy = false;
         }
 
         private async Task ExecuteGoToEscolherTurmaPageCommand()

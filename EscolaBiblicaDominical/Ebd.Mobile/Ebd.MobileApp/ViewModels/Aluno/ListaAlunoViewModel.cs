@@ -2,6 +2,7 @@
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses.Aluno;
 using Ebd.Mobile.Services.Responses.Turma;
+using Ebd.MobileApp.ViewModels;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 using System.Text.Json;
@@ -10,7 +11,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
 {
     [QueryProperty(nameof(Turma), nameof(Turma))]
     [QueryProperty(nameof(Alunos), nameof(Alunos))]
-    internal class ListaAlunoViewModel : BaseViewModel
+    internal sealed class ListaAlunoViewModel : BasePageViewModel
     {
         private readonly IAlunoService _alunoService;
         private readonly ITurmaService _turmaService;

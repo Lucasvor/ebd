@@ -81,16 +81,24 @@
                         HorizontalOptions="Center"
                         Text="{x:Static icons:FontAwesomeIcon.ClipboardList}"
                         TextColor="Black"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
                     <Label
                         Grid.Row="1"
                         Grid.Column="3"
                         FontFamily="{x:Static styles:FontFamily.Regular}"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Turmas"
+                        Text="Alunos"
                         TextColor="Black"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
 
                     <Label
                         Grid.Column="5"

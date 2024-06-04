@@ -1,5 +1,4 @@
-﻿using AsyncAwaitBestPractices;
-using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.Mobile.Services.Interfaces;
 using Ebd.MobileApp.ViewModels;
 using Ebd.MobileApp.ViewModels.Home;
 using System.Windows.Input;
@@ -9,13 +8,20 @@ namespace Ebd.Mobile.ViewModels
     internal partial class LoginViewModel : BasePageViewModel
     {
         private readonly IUsuarioService usuarioService;
+        private readonly ITurmaService turmaService;
+        private readonly ISyncService syncService;
 
         public ICommand EfetuarLoginCommand { get; }
 
-        public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IUsuarioService usuarioService) : base(diagnosticService, dialogService, loggerService)
+        public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IUsuarioService usuarioService, ITurmaService turmaService, ISyncService syncService) : base(diagnosticService, dialogService, loggerService)
         {
             this.usuarioService = usuarioService;
             EfetuarLoginCommand = new Command(async () => await ClicouEmEfetuarLogin(), PodeEfetuarLogin);
+
+            Login = "admin";
+            Senha = "admin";
+            this.turmaService = turmaService;
+            this.syncService = syncService;
         }
 
         private string login;
@@ -54,22 +60,27 @@ namespace Ebd.Mobile.ViewModels
         {
             if (IsBusy) return;
             IsBusy = true;
+            DialogService.ShowLoading("Efetuando login...");
 
             var resposta = await usuarioService.EfetuarLoginAsync(new MobileApp.Services.Requests.Usuario.EfetuarLoginRequest
             {
                 Login = Login,
                 Senha = Senha
             });
+            DialogService.HideLoading();
+
             if (resposta.IsSuccess)
             {
-                SyncData().SafeFireAndForget();
+                DialogService.ShowLoading("Sincronizando seus dados...");
+                await SyncData();
+                DialogService.HideLoading();
+
                 await Navigate<HomeViewModel>();
             }
             else
             {
                 await DialogService.DisplayAlert("Oops", resposta.Exception.Message);
             }
-            //await Shell.Current.GoToAsync($"{nameof(HomePage)}");
 
             IsBusy = false;
         }
@@ -77,14 +88,17 @@ namespace Ebd.Mobile.ViewModels
 
         private async Task SyncData()
         {
-            await Task.Factory.StartNew(async () =>
+            try
             {
-                Console.WriteLine("Sincronizando dados...");
-                await Task.Delay(5000);
-                Console.WriteLine("Sincronização de dados concluída");
-            }).ConfigureAwait(false);
-
-            Console.WriteLine("DEVE aparecer antes da conclusão da sincronização...");
+                Logger.LogInformation("Sincronizando dados...");
+                await syncService.SyncDataAsync();
+                Logger.LogInformation("Sincronização de dados concluída");
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Erro ao sincroniar dados", ex);
+                DiagnosticService.TrackError(ex, "Erro ao sincroniar dados");
+            }
         }
     }
 }

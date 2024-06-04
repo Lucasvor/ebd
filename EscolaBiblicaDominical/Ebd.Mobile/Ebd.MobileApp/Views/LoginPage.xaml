@@ -75,21 +75,18 @@
                             FontAttributes="Bold"
                             HeightRequest="44"
                             Text="Login"
-                            TextColor="{StaticResource PrimaryTextColor}"
                             VerticalOptions="Center">
                             <Button.Triggers>
                                 <DataTrigger
                                     Binding="{Binding Path=EfetuarLoginCommand.CanExecute}"
                                     TargetType="Button"
                                     Value="False">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Gray600}" />
                                     <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
                                 <DataTrigger
                                     Binding="{Binding Path=EfetuarLoginCommand.CanExecute}"
                                     TargetType="Button"
                                     Value="True">
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
                                     <Setter Property="IsEnabled" Value="True" />
                                 </DataTrigger>
                             </Button.Triggers>
