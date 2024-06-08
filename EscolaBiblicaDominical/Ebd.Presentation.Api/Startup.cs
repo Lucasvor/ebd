@@ -6,22 +6,28 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
 using System.Text.Json.Serialization;
 
 namespace Ebd.Presentation.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            MakeSureLogFolderExists();
             services.ConfigureDependencyInjection(Configuration);
             services.ConfigureRouting();
             services.AddControllers()
@@ -51,7 +57,16 @@ namespace Ebd.Presentation.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                var applicationPath = Configuration.GetValue<string>("AppPath") ?? string.Empty;
+                var applicationPath = string.Empty;
+                try
+                {
+                    applicationPath = Configuration.GetValue<string>("AppPath") ?? string.Empty;
+                }
+                catch (System.Exception ex)
+                {
+                    Console.WriteLine("Erro obter AppPath");
+                    Console.WriteLine(ex.Message);
+                }
                 c.SwaggerEndpoint($"{applicationPath}/swagger/v1/swagger.json", "Ebd.Presentation.Api v1");
                 c.RoutePrefix = string.Empty;
             });
@@ -66,6 +81,14 @@ namespace Ebd.Presentation.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void MakeSureLogFolderExists()
+        {
+            var logFolderPath = Path.Combine(Environment.ContentRootPath, "Logs");
+
+            if (!Directory.Exists(logFolderPath))
+                Directory.CreateDirectory(logFolderPath);
         }
     }
 }

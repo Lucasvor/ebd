@@ -10,66 +10,56 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Ebd.Presentation.Api
+namespace Ebd.Presentation.Api;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            //Log.Logger = new LoggerConfiguration()
-            //    .WriteTo.File("Logs/application.log")
-            //    .CreateLogger();
-#if DEBUG
-            CreateHostBuilder(args)
-                .Build()
-                .Run();
-#else
-            BuildWebHost(args).Run();
-#endif
+        CreateHostBuilder(args)
+            .Build()
+            .Run();
+    }
 
-            //Log.CloseAndFlush();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>()
+                .ConfigureLogging((_, builder) =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                    .ConfigureLogging((_, builder) =>
-                    {
-                        ConfigureLog(builder);
-                    });
+                    ConfigureLog(builder);
                 });
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((ctx, builder) =>
-            {
-                builder.AddJsonFile("appsettings.json", false, true);
-                builder.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", false, true);
-                builder.AddEnvironmentVariables();
-            })
-            .UseStartup<Startup>()
-            .ConfigureLogging((_, builder) =>
-               {
-                   ConfigureLog(builder);
-               })
-            .Build();
-
-        private static void ConfigureLog(ILoggingBuilder builder)
-        {
-            var log4NetConfig = new FileInfo("log4net.config");
-            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            XmlConfigurator.Configure(logRepository, log4NetConfig);
-
-            builder.SetMinimumLevel(LogLevel.Trace);
-            builder.AddLog4Net();
-            builder.AddColorConsoleLogger(configuration =>
-            {
-                configuration.LogLevels.Add(LogLevel.Warning, ConsoleColor.DarkYellow);
-                configuration.LogLevels.Add(LogLevel.Error, ConsoleColor.DarkMagenta);
-                configuration.LogLevels.Add(LogLevel.Critical, ConsoleColor.Red);
             });
-        }
+
+    public static IWebHost BuildWebHost(string[] args) =>
+        WebHost.CreateDefaultBuilder(args)
+        .ConfigureAppConfiguration((ctx, builder) =>
+        {
+            builder.AddJsonFile("appsettings.json", false, true);
+            builder.AddJsonFile($"appsettings.{ctx.HostingEnvironment.EnvironmentName}.json", true, true);
+            builder.AddEnvironmentVariables();
+        })
+        .UseStartup<Startup>()
+        .ConfigureLogging((_, builder) =>
+           {
+               ConfigureLog(builder);
+           })
+        .Build();
+
+    private static void ConfigureLog(ILoggingBuilder builder)
+    {
+        var log4NetConfig = new FileInfo("log4net.config");
+        var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+        XmlConfigurator.Configure(logRepository, log4NetConfig);
+
+        builder.SetMinimumLevel(LogLevel.Trace);
+        builder.AddLog4Net();
+        builder.AddColorConsoleLogger(configuration =>
+        {
+            configuration.LogLevels.Add(LogLevel.Warning, ConsoleColor.DarkYellow);
+            configuration.LogLevels.Add(LogLevel.Error, ConsoleColor.DarkMagenta);
+            configuration.LogLevels.Add(LogLevel.Critical, ConsoleColor.Red);
+        });
     }
 }

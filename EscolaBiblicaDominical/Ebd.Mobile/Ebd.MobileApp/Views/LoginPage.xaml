@@ -46,7 +46,7 @@
                             TextColor="{StaticResource Primary}" />
                         <Label
                             HorizontalOptions="Center"
-                            Text="Bem vindo de votla"
+                            Text="Bem vindo de volta"
                             TextColor="{StaticResource Tertiary}" />
 
                         <Label
