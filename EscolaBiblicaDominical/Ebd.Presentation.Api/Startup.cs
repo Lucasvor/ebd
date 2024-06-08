@@ -61,12 +61,16 @@ namespace Ebd.Presentation.Api
                 try
                 {
                     applicationPath = Configuration.GetValue<string>("AppPath") ?? string.Empty;
+
+                    if (applicationPath != string.Empty)
+                        applicationPath = string.Concat("/", applicationPath);
                 }
                 catch (System.Exception ex)
                 {
                     Console.WriteLine("Erro obter AppPath");
                     Console.WriteLine(ex.Message);
                 }
+
                 c.SwaggerEndpoint($"{applicationPath}/swagger/v1/swagger.json", "Ebd.Presentation.Api v1");
                 c.RoutePrefix = string.Empty;
             });

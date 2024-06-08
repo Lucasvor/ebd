@@ -1,0 +1,77 @@
+﻿using Ebd.Infra.Data;
+using Ebd.Presentation.Tests.Integration.Setup.Context;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
+
+namespace Ebd.Presentation.Tests.Integration.Base;
+
+public class IntegrationTestsBase : IDisposable
+{
+    protected HttpClient HttpClient = null!;
+    protected MainContext Context = null!;
+    protected DatabaseSeeder DbSeeder = null!;
+
+    //referencia: https://gunnarpeipman.com/aspnet-core-integration-tests-appsettings/
+
+    public void SubirAplicacao(bool logado = true)
+    {
+        //faz alguns overrides no Program.cs do projeto Web:
+
+        var projectDir = Directory.GetCurrentDirectory();
+        var configPath = Path.Combine(projectDir, "appsettings.integration.tests.json");
+
+        var webAppFactory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+        {
+            //troca o appsettings para usar o de teste
+            builder.ConfigureAppConfiguration((context, conf) =>
+            {
+                conf.AddJsonFile(configPath);
+            });
+
+            //troca o DbSession para usar o de teste
+            builder.ConfigureServices(services =>
+            {
+                services.AddSingleton<MainContext, TestDbContext>();
+            });
+
+            if (logado)
+            {
+                //var usuario = perfil!.Value == PerfilUsuario.Administrador ?
+                //                    TestConstants.UsuarioAdmin() :
+                //                    TestConstants.UsuarioComum();
+
+                //var _authManager = new AuthenticationManager();
+
+                //var testClaims = _authManager.GerarClaimsUsuario(usuario);
+
+                //builder.ConfigureTestServices(services =>
+                //{
+                //    services.AddSingleton<IAuthenticationSchemeProvider, MockSchemeProvider>();
+                //    services.AddSingleton<MockClaimSeed>(_ => new(testClaims));
+                //    services.AddSingleton<DatabaseSeeder, DatabaseSeeder>();
+                //});
+            }
+        });
+
+        //cria o client da aplicação
+
+        HttpClient = webAppFactory.CreateDefaultClient();
+
+        //cria um banco de dados novo para o teste
+
+        var scope = webAppFactory.Services.CreateScope();
+
+        Context = scope.ServiceProvider.GetRequiredService<MainContext>();
+        DbSeeder = new DatabaseSeeder(Context);
+
+        Context.Database.EnsureCreated();
+    }
+
+    public void Dispose()
+    {
+        Context.Database.EnsureDeleted();
+    }
+}
+

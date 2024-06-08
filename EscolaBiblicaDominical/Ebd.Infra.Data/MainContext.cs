@@ -13,7 +13,7 @@ namespace Ebd.Infra.Data
 {
     public class MainContext : DbContext, IEntityFrameworkContext, IDisposable
     {
-        private IConfiguration appConfiguration;
+        public IConfiguration appConfiguration;
 
         public MainContext(DataBaseConfiguration configuration, IConfiguration appConfiguration)
         {
@@ -97,7 +97,7 @@ namespace Ebd.Infra.Data
 
             return builder;
         }
-        
+
         private DbContextOptionsBuilder ConfigureMySqlConnection(DbContextOptionsBuilder builder)
         {
             const int tableDoesNotExist = 1146;
