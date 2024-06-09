@@ -5,7 +5,7 @@ using Ebd.Mobile.Services.Responses.Bairro;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class BairroService : BaseService, IBairroService
+    internal sealed class BairroService : BaseService, IBairroService
     {
         private const string PathToService = "bairro";
 

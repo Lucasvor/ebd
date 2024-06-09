@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet
+    x:Class="Ebd.MobileApp.Views.Turma.EscolherTurmaBottomSheet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+    Padding="32,32"
+    BackgroundColor="{StaticResource Secondary}">
+    <the49:BottomSheet.Detents>
+        <the49:ContentDetent IsDefault="True" />
+        <the49:RatioDetent Ratio="0.50" />
+    </the49:BottomSheet.Detents>
+    <VerticalStackLayout>
+        <Label
+            FontSize="Medium"
+            HorizontalOptions="CenterAndExpand"
+            Text="Escolha a turma"
+            VerticalOptions="CenterAndExpand" />
+        <Label Text="COlocar uma lista de o pç~ies aqui" />
+    </VerticalStackLayout>
+</the49:BottomSheet>

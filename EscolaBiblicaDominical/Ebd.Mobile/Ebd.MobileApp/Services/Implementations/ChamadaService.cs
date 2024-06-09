@@ -3,11 +3,10 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Chamada;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Chamada;
-using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class ChamadaService : BaseService, IChamadaService
+    internal sealed class ChamadaService : BaseService, IChamadaService
     {
         private const string PathToService = "chamada";
 

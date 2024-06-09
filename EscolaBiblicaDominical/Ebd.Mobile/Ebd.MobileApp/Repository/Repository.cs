@@ -79,9 +79,9 @@ namespace Ebd.Mobile.Repository
         public IEnumerable<T> FiltrarItens<T>(Query query, int limit = int.MaxValue)
         {
             return DataBase
-                ?.GetCollection<T>()
-                ?.Find(query: Query.All(Query.Descending), limit: limit)
-                ?.Take(limit);
+                .GetCollection<T>()
+                .Find(query: Query.All(Query.Descending), limit: limit)
+                .Take(limit);
         }
 
         public IEnumerable<T> FiltrarItens<T>(Expression<Func<T, bool>> predicate) => DataBase.GetCollection<T>().Find(predicate);

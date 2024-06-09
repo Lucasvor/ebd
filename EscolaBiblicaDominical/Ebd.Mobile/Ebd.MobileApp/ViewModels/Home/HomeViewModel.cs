@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Ebd.CrossCutting.Common.Extensions;
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.Views.Chamada;
+using Ebd.MobileApp.Services.Interfaces.BottomSheets;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 
@@ -12,11 +14,14 @@ namespace Ebd.MobileApp.ViewModels.Home
     {
         private readonly ISyncService syncService;
         private readonly ILoggerService loggerService;
+        private readonly IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService;
+        private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
 
-        public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
+        public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService) : base(diagnosticService, dialogService, loggerService)
         {
             this.syncService = syncService;
             this.loggerService = loggerService;
+            this.escolherTurmaBottomSheetService = escolherTurmaBottomSheetService;
 
             GoToAlunoPageCommand = new AsyncCommand(
                 execute: ExecuteGoToAlunoPageCommand,
@@ -25,6 +30,7 @@ namespace Ebd.MobileApp.ViewModels.Home
             GoToEscolherTurmaPageCommand = new AsyncCommand(
                 execute: ExecuteGoToEscolherTurmaPageCommand,
                 onException: CommandOnException);
+            this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
         }
 
         public AsyncCommand GoToAlunoPageCommand { get; private set; }
@@ -82,12 +88,17 @@ namespace Ebd.MobileApp.ViewModels.Home
             {
                 try
                 {
-                    await syncService.SyncDataAsync();
+                    if (configuracoesDoUsuarioService.SelecionouUmaTurma.Not())
+                    {
+                        await escolherTurmaBottomSheetService.AbrirBottomSheetAsync();
+                        return;
+                    }
+
+                    await InitializeHomeTab();
                 }
                 catch (Exception exception)
                 {
-                    loggerService.LogError("Não foi possível syncronizar os dados", exception);
-                    //TODO Do something else with this error
+                    loggerService.LogError($"{nameof(HomeViewModel)}::{nameof(OnAppearing)}", exception);
                 }
             });
         }

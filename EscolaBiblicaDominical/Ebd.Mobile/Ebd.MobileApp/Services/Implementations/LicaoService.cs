@@ -3,12 +3,10 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Requests.Licao;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Licao;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class LicaoService : BaseService, ILicaoService
+    internal sealed class LicaoService : BaseService, ILicaoService
     {
         private const string PathToService = "licao";
 

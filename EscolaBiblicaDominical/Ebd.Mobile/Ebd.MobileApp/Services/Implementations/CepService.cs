@@ -6,7 +6,7 @@ using Ebd.Mobile.Services.Responses.Cep;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class CepService : BaseService, ICepService
+    internal sealed class CepService : BaseService, ICepService
     {
         public CepService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService) { }
 

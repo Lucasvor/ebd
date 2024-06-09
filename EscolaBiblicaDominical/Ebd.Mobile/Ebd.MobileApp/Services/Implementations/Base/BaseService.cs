@@ -2,7 +2,7 @@
 
 namespace Ebd.Mobile.Services.Implementations.Base
 {
-    public abstract class BaseService : ApiService
+    internal abstract class BaseService : ApiService
     {
         protected readonly ILoggerService loggerService;
 

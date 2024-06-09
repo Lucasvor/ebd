@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui;
 using Controls.UserDialogs.Maui;
 using Microsoft.Extensions.Logging;
+using The49.Maui.BottomSheet;
 
 namespace Ebd.Mobile;
 
@@ -12,6 +13,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseUserDialogs()
+            .UseBottomSheet()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSansRegular.ttf", "OpenSansRegular");

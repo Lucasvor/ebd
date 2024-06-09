@@ -6,7 +6,7 @@ using Ebd.Mobile.Services.Responses.Aluno;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class AlunoService : BaseService, IAlunoService
+    internal sealed class AlunoService : BaseService, IAlunoService
     {
         private const string PathToService = "aluno";
 

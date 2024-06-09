@@ -67,26 +67,25 @@ namespace Ebd.Mobile.ViewModels
                 Login = Login,
                 Senha = Senha
             });
-            DialogService.HideLoading();
 
             if (resposta.IsSuccess)
             {
                 DialogService.ShowLoading("Sincronizando seus dados...");
-                await SyncData();
+                await SincronizarDados();
                 DialogService.HideLoading();
 
                 await Navigate<HomeViewModel>();
             }
             else
             {
+                DialogService.HideLoading();
                 await DialogService.DisplayAlert("Oops", resposta.Exception.Message);
             }
 
             IsBusy = false;
         }
 
-
-        private async Task SyncData()
+        private async Task SincronizarDados()
         {
             try
             {

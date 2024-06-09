@@ -3,7 +3,7 @@ using Ebd.Mobile.Services.Interfaces;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class SyncService : BaseService, ISyncService
+    internal sealed class SyncService : BaseService, ISyncService
     {
         private readonly ITurmaService turmaService;
         private readonly IBairroService bairroService;

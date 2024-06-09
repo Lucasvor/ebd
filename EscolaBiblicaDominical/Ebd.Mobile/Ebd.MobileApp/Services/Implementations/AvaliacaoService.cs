@@ -2,12 +2,10 @@
 using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Avaliacao;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Ebd.Mobile.Services.Implementations
 {
-    public class AvaliacaoService : BaseService, IAvaliacaoService
+    internal sealed class AvaliacaoService : BaseService, IAvaliacaoService
     {
         private const string PathToService = "avaliacao";
 

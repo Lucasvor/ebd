@@ -12,7 +12,10 @@ using Ebd.Mobile.Views.Aluno;
 using Ebd.Mobile.Views.Chamada;
 using Ebd.MobileApp.Network;
 using Ebd.MobileApp.Services.Implementations;
+using Ebd.MobileApp.Services.Implementations.BottomSheets;
+using Ebd.MobileApp.Services.Interfaces.BottomSheets;
 using Ebd.MobileApp.ViewModels.Home;
+using Ebd.MobileApp.ViewModels.Perfil;
 using Ebd.MobileApp.ViewModels.Welcome;
 using Ebd.MobileApp.Views.Welcome;
 
@@ -49,6 +52,9 @@ namespace Ebd.Mobile
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
+            services.AddSingleton<IConfiguracoesDoUsuarioService, ConfiguracoesDoUsuarioService>();
+            services.AddSingleton<IPreferences>(Preferences.Default);
+
             //services.AddSingleton<IApiService, ApiService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddSingleton<IDiagnosticService, DiagnosticService>();
@@ -66,6 +72,9 @@ namespace Ebd.Mobile
             services.AddSingleton<ISyncService, SyncService>();
             services.AddSingleton<ITurmaService, TurmaService>();
             services.AddSingleton<IUsuarioService, UsuarioService>();
+
+            //BottomSheets
+            services.AddSingleton<IEscolherTurmaBottomSheetService, EscolherTurmaBottomSheetService>();
 
             return services;
         }
@@ -109,6 +118,10 @@ namespace Ebd.Mobile
             services.AddTransient<EscolherTurmaViewModel>();
             services.AddTransient<NovoAlunoViewModel>();
             services.AddTransient<AdicionarResponsavelViewModel>();
+
+            //Perfil
+            services.AddTransient<PerfilPageViewModel>();
+
 
             return services;
         }
