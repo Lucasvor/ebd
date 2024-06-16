@@ -3,4 +3,5 @@
 public interface IEscolherTurmaBottomSheetService
 {
     Task AbrirBottomSheetAsync();
+    Task FecharBottomSheetAsync();
 }

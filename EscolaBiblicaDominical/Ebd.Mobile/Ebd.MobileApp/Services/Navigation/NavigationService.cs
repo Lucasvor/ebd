@@ -56,13 +56,12 @@ internal sealed class NavigationService
 
             await ((BasePageViewModel)page.BindingContext).OnAppearingAsync(parameter);
 
-            if (pagesToRemove is not null)
+            if (pagesToRemove is null) return;
+
+            foreach (var pageToRemove in pagesToRemove)
             {
-                foreach (var pageToRemove in pagesToRemove)
-                {
-                    if (Navigation.NavigationStack?.Contains(pageToRemove) ?? false)
-                        Navigation.RemovePage(pageToRemove);
-                }
+                if (Navigation.NavigationStack?.Contains(pageToRemove) ?? false)
+                    Navigation.RemovePage(pageToRemove);
             }
         }
         catch (Exception ex)

@@ -15,12 +15,14 @@ namespace Ebd.Mobile.ViewModels.Aluno
     {
         private readonly IAlunoService _alunoService;
         private readonly ITurmaService _turmaService;
+        private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
 
-        public ListaAlunoViewModel(ITurmaService turmaService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAlunoService alunoService) : base(diagnosticService, dialogService, loggerService)
+        public ListaAlunoViewModel(ITurmaService turmaService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAlunoService alunoService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService) : base(diagnosticService, dialogService, loggerService)
         {
             Title = "Alunos";
             _turmaService = turmaService;
             _alunoService = alunoService;
+            this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
         }
 
         private string title;
@@ -85,7 +87,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     execute: NewStudentCommandExecute,
                     onException: CommandOnException);
 
-        public override async Task Appearing(object args)
+        public override async Task OnAppearingAsync(object args)
         {
             if (IsBusy) return;
             try
@@ -123,7 +125,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
                 }
                 else if (Turmas.Count == 1)
                 {
-                    TurmaSelecionada = Turmas[0];
+                    var turmaSelecionadaEhIgual = configuracoesDoUsuarioService.TurmaSelecionada?.TurmaId == Turmas[0].TurmaId;
+                    if (turmaSelecionadaEhIgual)
+                    {
+                        TurmaSelecionada = configuracoesDoUsuarioService.TurmaSelecionada!;
+                    }
                 }
             }
             catch (Exception ex)

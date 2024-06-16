@@ -18,28 +18,6 @@
             TextColor="White"
             VerticalOptions="Center" />
     </NavigationPage.TitleView>
-    <ContentPage.Resources>
-        <the49:BottomSheet
-            x:Key="sheet"
-            x:Name="sheet"
-            Padding="8"
-            IsCancelable="False">
-            <the49:BottomSheet.Content>
-                <StackLayout>
-                    <Label
-                        FontSize="24"
-                        HorizontalOptions="Center"
-                        Text="Bottom Sheet"
-                        TextColor="Black" />
-                    <Label
-                        FontSize="16"
-                        HorizontalOptions="Center"
-                        Text="This is a bottom sheet"
-                        TextColor="Black" />
-                </StackLayout>
-            </the49:BottomSheet.Content>
-        </the49:BottomSheet>
-    </ContentPage.Resources>
     <Grid>
         <Grid RowDefinitions="*,1.75*">
             <Grid

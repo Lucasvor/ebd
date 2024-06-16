@@ -3,9 +3,11 @@
     x:Class="Ebd.MobileApp.Views.Turma.EscolherTurmaBottomSheet"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Turma"
     xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+    x:Name="ThisBottomSheet"
     Padding="32,32"
-    BackgroundColor="{StaticResource Secondary}">
+    BackgroundColor="{StaticResource White}">
     <the49:BottomSheet.Detents>
         <the49:ContentDetent IsDefault="True" />
         <the49:RatioDetent Ratio="0.50" />
@@ -16,6 +18,40 @@
             HorizontalOptions="CenterAndExpand"
             Text="Escolha a turma"
             VerticalOptions="CenterAndExpand" />
-        <Label Text="COlocar uma lista de o pç~ies aqui" />
+
+        <ListView
+            x:Name="TurmasListView"
+            ItemsSource="{Binding Turmas}"
+            SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <VerticalStackLayout Padding="10">
+                            <Label
+                                FontSize="Micro"
+                                LineBreakMode="NoWrap"
+                                TextColor="{StaticResource Secondary}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding IdadeMinima}" />
+                                        <Span Text="{Binding IdadeMaxima}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                FontSize="Subtitle"
+                                LineBreakMode="NoWrap"
+                                Text="{Binding Nome}" />
+                            <VerticalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding BindingContext.TurmaSelecionadaCommand, Source={x:Reference ThisBottomSheet}}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </VerticalStackLayout.GestureRecognizers>
+                        </VerticalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </VerticalStackLayout>
 </the49:BottomSheet>

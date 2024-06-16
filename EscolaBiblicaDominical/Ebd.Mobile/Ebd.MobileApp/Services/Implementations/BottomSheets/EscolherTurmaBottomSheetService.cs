@@ -5,14 +5,24 @@ namespace Ebd.MobileApp.Services.Implementations.BottomSheets;
 
 public class EscolherTurmaBottomSheetService : IEscolherTurmaBottomSheetService
 {
+    private EscolherTurmaBottomSheet? EscolherTurmaBottomSheet;
+
     public async Task AbrirBottomSheetAsync()
     {
-        var bottomSheet = new EscolherTurmaBottomSheet
+        EscolherTurmaBottomSheet = new EscolherTurmaBottomSheet
         {
             HasHandle = true,
             IsCancelable = false
         };
 
-        await bottomSheet.ShowAsync();
+        await EscolherTurmaBottomSheet.ShowAsync();
+    }
+
+    public async Task FecharBottomSheetAsync()
+    {
+        if (EscolherTurmaBottomSheet is null)
+            return;
+
+        await EscolherTurmaBottomSheet.DismissAsync();
     }
 }

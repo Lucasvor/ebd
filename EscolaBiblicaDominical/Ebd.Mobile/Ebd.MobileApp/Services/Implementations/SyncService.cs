@@ -17,11 +17,11 @@ namespace Ebd.Mobile.Services.Implementations
         public async Task SyncDataAsync()
         {
             var turmasResponse = await turmaService.ObterTodasAsync();
-            if (turmasResponse.IsSuccess) loggerService.LogError("Dados de turmas sincronizados");
+            if (turmasResponse.IsSuccess) loggerService.LogInformation("Dados de turmas sincronizados");
             else loggerService.LogError("Erro ao tentar sincronizar as turmas", turmasResponse.Exception);
 
             var bairrosResponse = await bairroService.ObterTodosAsync();
-            if (bairrosResponse.IsSuccess) loggerService.LogError("Dados de bairros sincronizados");
+            if (bairrosResponse.IsSuccess) loggerService.LogInformation("Dados de bairros sincronizados");
             else loggerService.LogError("Erro ao tentar sincronizar os bairros", bairrosResponse.Exception);
         }
     }

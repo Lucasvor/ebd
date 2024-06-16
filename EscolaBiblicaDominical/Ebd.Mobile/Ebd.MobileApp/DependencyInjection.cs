@@ -16,6 +16,7 @@ using Ebd.MobileApp.Services.Implementations.BottomSheets;
 using Ebd.MobileApp.Services.Interfaces.BottomSheets;
 using Ebd.MobileApp.ViewModels.Home;
 using Ebd.MobileApp.ViewModels.Perfil;
+using Ebd.MobileApp.ViewModels.Turma;
 using Ebd.MobileApp.ViewModels.Welcome;
 using Ebd.MobileApp.Views.Welcome;
 
@@ -122,6 +123,8 @@ namespace Ebd.Mobile
             //Perfil
             services.AddTransient<PerfilPageViewModel>();
 
+            //BottomSheets
+            services.AddTransient<EscolherTurmaBottomSheetViewModel>();
 
             return services;
         }
