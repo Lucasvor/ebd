@@ -19,7 +19,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
         private readonly ITurmaService _turmaService;
         private readonly ILicaoService _licaoService;
 
-        public EscolherTurmaViewModel(IAlunoService alunoService, IRevistaService revistaService, ITurmaService turmaService, ILicaoService licaoService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
+        public EscolherTurmaViewModel(IAlunoService alunoService, IRevistaService revistaService, ITurmaService turmaService, ILicaoService licaoService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             Title = "Escolher turma";
             _turmaService = turmaService;

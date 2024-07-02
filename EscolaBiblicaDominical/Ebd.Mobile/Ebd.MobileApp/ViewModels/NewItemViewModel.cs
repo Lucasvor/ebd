@@ -8,7 +8,7 @@ namespace Ebd.Mobile.ViewModels
         private string text;
         private string description;
 
-        public NewItemViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
+        public NewItemViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);

@@ -7,17 +7,18 @@ using System.Windows.Input;
 
 namespace Ebd.MobileApp.ViewModels.Turma;
 
-internal sealed class EscolherTurmaBottomSheetViewModel : BasePageViewModel
+internal sealed class EscolherTurmaBottomSheetViewModel : BaseBottomSheetViewModel
 {
     private readonly ITurmaService turmaService;
     private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
     private readonly IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService;
 
-    public EscolherTurmaBottomSheetViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger, ITurmaService turmaService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService) : base(diagnosticService, dialogService, logger)
+    public EscolherTurmaBottomSheetViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger, ITurmaService turmaService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, logger, analyticsService)
     {
         this.turmaService = turmaService;
         Turmas = new ObservableCollection<TurmaResponse>();
-        TurmaSelecionadaCommand = new Command<TurmaResponse>(ExecutarTurmaSelecionadaCommand);
+        TurmaSelecionadaCommand = new Command<TurmaResponse>(async (turma) => await ExecutarTurmaSelecionadaCommand(turma));
+
         this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
         this.escolherTurmaBottomSheetService = escolherTurmaBottomSheetService;
     }
@@ -61,12 +62,12 @@ internal sealed class EscolherTurmaBottomSheetViewModel : BasePageViewModel
         }
     }
 
-    private void ExecutarTurmaSelecionadaCommand(TurmaResponse turma)
+    private async Task ExecutarTurmaSelecionadaCommand(TurmaResponse turma)
     {
         Logger.LogInformation($"Turma selecionada: {turma.Nome}");
 
         configuracoesDoUsuarioService.TurmaSelecionada = turma;
 
-        escolherTurmaBottomSheetService.FecharBottomSheetAsync();
+        await MainThread.InvokeOnMainThreadAsync(escolherTurmaBottomSheetService.FecharBottomSheetAsync);
     }
 }

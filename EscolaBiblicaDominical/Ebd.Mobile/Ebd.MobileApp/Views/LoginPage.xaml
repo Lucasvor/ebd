@@ -8,7 +8,6 @@
     xmlns:system="clr-namespace:System;assembly=netstandard"
     xmlns:viewModel="clr-namespace:Ebd.Mobile.ViewModels"
     x:DataType="viewModel:LoginViewModel"
-    BackgroundColor="{StaticResource Primary}"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False"
     mc:Ignorable="d">
@@ -24,7 +23,7 @@
                         Margin="0,32,0,0"
                         HorizontalTextAlignment="Center"
                         LineBreakMode="CharacterWrap"
-                        TextColor="{StaticResource PrimaryTextColor}">
+                        TextColor="{StaticResource Accent}">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Não andeis ansiosos por coisa alguma..." />

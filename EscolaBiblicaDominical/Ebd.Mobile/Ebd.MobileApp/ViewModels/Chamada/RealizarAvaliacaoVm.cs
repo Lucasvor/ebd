@@ -5,7 +5,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
 {
     internal class RealizarAvaliacaoVm : BaseViewModel
     {
-        public RealizarAvaliacaoVm(AvaliacaoResponse avaliacaoResponse, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
+        public RealizarAvaliacaoVm(AvaliacaoResponse avaliacaoResponse, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             AvaliacaoId = avaliacaoResponse.AvaliacaoId;
             Nome = avaliacaoResponse.Nome;

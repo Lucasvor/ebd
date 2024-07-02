@@ -13,24 +13,14 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <!--  Values  -->
             <x:String x:Key="FontAwesomeSolid">FontAwesome-Solid</x:String>
             <Thickness x:Key="ContentPadding">20, 0</Thickness>
 
-            <!--  Colors  -->
-            <Color x:Key="StatusbarColor">#123456</Color>
-            <Color x:Key="NavBarColor">#1976D2</Color>
-            <Color x:Key="NavigationBarTextColor">#5D5D5D</Color>
-            <Color x:Key="RequiredStarColor">#F5F5F5</Color>
-            <Color x:Key="PlaceholderColor">#C0C0C0</Color>
-
-            <Color x:Key="SeparatorColor">#CCCCCC</Color>
-            <Color x:Key="ListBackgroundColor">#F2F2F2</Color>
-            <Color x:Key="ListItemSelectedBackgroundColor">#F2F2F2</Color>
-
-            <Style TargetType="Label">
-                <Setter Property="TextColor" Value="Black" />
-            </Style>
             <Style x:Key="InvalidEntryStyle" TargetType="Entry">
                 <Setter Property="TextColor" Value="Red" />
             </Style>
@@ -48,60 +38,6 @@
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="24" />
             </Style>
-            <!--  Implicit styles  -->
-            <Style ApplyToDerivedTypes="True" TargetType="Entry">
-                <Setter Property="FontSize" Value="Small" />
-                <Setter Property="TextColor" Value="Black" />
-                <Setter Property="PlaceholderColor" Value="{StaticResource PlaceholderColor}" />
-            </Style>
-            <Style ApplyToDerivedTypes="True" TargetType="Picker">
-                <Setter Property="FontSize" Value="Small" />
-                <Setter Property="TextColor" Value="Black" />
-            </Style>
-            <Style ApplyToDerivedTypes="True" TargetType="Button">
-                <Setter Property="FontSize" Value="Caption" />
-                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
-                <Setter Property="CornerRadius" Value="5" />
-            </Style>
-
-            <Style ApplyToDerivedTypes="True" TargetType="NavigationPage">
-                <Setter Property="BarBackgroundColor" Value="{StaticResource NavBarColor}" />
-                <Setter Property="BarTextColor" Value="{StaticResource NavigationBarTextColor}" />
-            </Style>
-
-            <Style ApplyToDerivedTypes="True" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="ios:Page.UseSafeArea" Value="False" />
-                <Setter Property="NavigationPage.BackButtonTitle" Value="" />
-
-                <Style.Behaviors>
-                    <toolkit:StatusBarBehavior StatusBarColor="{StaticResource StatusbarColor}" />
-                </Style.Behaviors>
-            </Style>
-            <!--<Style TargetType="Button">
-                <Setter Property="TextColor" Value="White"></Setter>
-                <Setter Property="VisualStateManager.VisualStateGroups">
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Disabled">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#332196F3" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </Setter>
-            </Style>-->
-
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -5,7 +5,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
 {
     internal class AdicionarResponsavelViewModel : BaseViewModel
     {
-        public AdicionarResponsavelViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger) : base(diagnosticService, dialogService, logger)
+        public AdicionarResponsavelViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, logger, analyticsService)
         {
         }
 

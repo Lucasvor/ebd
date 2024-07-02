@@ -13,10 +13,10 @@ public partial class HomePage : ContentPage
         BindingContext = viewModel = DependencyInjection.GetService<HomeViewModel>();
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        viewModel.OnAppearing();
+        await viewModel.OnAppearingAsync();
     }
 }

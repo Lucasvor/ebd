@@ -25,4 +25,9 @@ public class EscolherTurmaBottomSheetService : IEscolherTurmaBottomSheetService
 
         await EscolherTurmaBottomSheet.DismissAsync();
     }
+
+    public void Dispose()
+    {
+        EscolherTurmaBottomSheet = null;
+    }
 }

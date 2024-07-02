@@ -30,7 +30,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
 
         public const string BottomSheetSelecionarBairro = "BottomSheetSelecionarBairro";
 
-        public NovoAlunoViewModel(ITurmaService turmaService, IAlunoService alunoService, IBairroService bairroService, ICepService cepService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
+        public NovoAlunoViewModel(ITurmaService turmaService, IAlunoService alunoService, IBairroService bairroService, ICepService cepService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             _turmaService = turmaService;
             _alunoService = alunoService;

@@ -5,7 +5,7 @@ namespace Ebd.Mobile.ViewModels
 {
     internal class AboutViewModel : BaseViewModel
     {
-        public AboutViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
+        public AboutViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             Title = "About";
             OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));

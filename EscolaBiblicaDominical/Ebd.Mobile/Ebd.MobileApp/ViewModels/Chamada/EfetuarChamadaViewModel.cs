@@ -23,7 +23,7 @@ namespace Ebd.Mobile.ViewModels.Chamada
         private readonly IAvaliacaoService _avaliacaoService;
         private readonly IChamadaService _chamadaService;
 
-        public EfetuarChamadaViewModel(IAlunoService alunoService, IAvaliacaoService avaliacaoService, IChamadaService chamadaService, IDialogService dialogService, IDiagnosticService diagnosticService, ILoggerService loggerService) : base(diagnosticService, dialogService, loggerService)
+        public EfetuarChamadaViewModel(IAlunoService alunoService, IAvaliacaoService avaliacaoService, IChamadaService chamadaService, IDialogService dialogService, IDiagnosticService diagnosticService, ILoggerService loggerService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             Title = "Efetuar chamada";
 

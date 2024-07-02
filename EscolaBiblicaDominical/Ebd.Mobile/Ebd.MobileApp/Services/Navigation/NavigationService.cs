@@ -1,9 +1,13 @@
 ﻿using Ebd.Mobile;
+using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.ViewModels;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.Views;
 using Ebd.Mobile.Views.Aluno;
 using Ebd.MobileApp.ViewModels;
 using Ebd.MobileApp.ViewModels.Home;
+using Ebd.MobileApp.ViewModels.Perfil;
+using Ebd.MobileApp.Views.Perfil;
 using Ebd.MobileApp.Views.Welcome;
 
 namespace Ebd.MobileApp.Services.Navigation;
@@ -27,10 +31,12 @@ internal sealed class NavigationService
 
     void CreateViewModelMappings()
     {
+        _mappings.Add(typeof(LoginViewModel), typeof(LoginPage));
         _mappings.Add(typeof(ViewModels.Welcome.WelcomeViewModel), typeof(WelcomePage));
         _mappings.Add(typeof(ListaAlunoViewModel), typeof(ListaAlunoPage));
         _mappings.Add(typeof(NovoAlunoViewModel), typeof(NovoAlunoPage));
         _mappings.Add(typeof(HomeViewModel), typeof(HomePage));
+        _mappings.Add(typeof(PerfilPageViewModel), typeof(PerfilPage));
     }
 
     public async Task Navigate<TViewModel>(object? parameter = null, bool animated = true)
@@ -43,6 +49,11 @@ internal sealed class NavigationService
             var viewModelType = typeof(TViewModel);
 
             var page = CreateAndBindPage(viewModelType);
+            if (viewModelType == typeof(LoginViewModel))
+            {
+                Application.Current!.MainPage = new CustomNavigationPage(page);
+                return;
+            }
 
             if (viewModelType == typeof(HomeViewModel))
             {
@@ -74,9 +85,15 @@ internal sealed class NavigationService
     public void Initialize(object? parameters = null)
     {
         Page page;
+        var userSettings = DependencyInjection.GetService<IConfiguracoesDoUsuarioService>();
+
         if (VersionTracking.Default.IsFirstLaunchEver)
         {
             page = DependencyInjection.GetService<WelcomePage>();
+        }
+        else if (userSettings.IsSessionValid())
+        {
+            page = DependencyInjection.GetService<HomePage>();
         }
         else
         {

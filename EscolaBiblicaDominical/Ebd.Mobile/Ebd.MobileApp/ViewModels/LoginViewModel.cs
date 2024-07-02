@@ -13,11 +13,12 @@ namespace Ebd.Mobile.ViewModels
 
         public ICommand EfetuarLoginCommand { get; }
 
-        public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IUsuarioService usuarioService, ITurmaService turmaService, ISyncService syncService) : base(diagnosticService, dialogService, loggerService)
+        public LoginViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IUsuarioService usuarioService, ITurmaService turmaService, ISyncService syncService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             this.usuarioService = usuarioService;
             EfetuarLoginCommand = new Command(async () => await ClicouEmEfetuarLogin(), PodeEfetuarLogin);
 
+            SetupScreenName("Login");
             Login = "admin";
             Senha = "admin";
             this.turmaService = turmaService;
@@ -98,6 +99,13 @@ namespace Ebd.Mobile.ViewModels
                 Logger.LogError("Erro ao sincroniar dados", ex);
                 DiagnosticService.TrackError(ex, "Erro ao sincroniar dados");
             }
+        }
+
+        public override async Task OnAppearingAsync(object? parameter = null)
+        {
+            await base.OnAppearingAsync(parameter);
+
+            Logger.LogInformation($"parameter: {parameter}");
         }
     }
 }

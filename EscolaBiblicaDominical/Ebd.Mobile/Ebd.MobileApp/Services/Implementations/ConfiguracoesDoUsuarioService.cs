@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Services.Interfaces;
+﻿using Ebd.CrossCutting.Common.Extensions;
+using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.Services.Responses;
 using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.MobileApp.Services.Requests.Turma;
@@ -9,6 +10,8 @@ namespace Ebd.Mobile.Services.Implementations;
 internal sealed class ConfiguracoesDoUsuarioService : IConfiguracoesDoUsuarioService
 {
     private const string TurmaSelecionadaKey = "TurmaSelecionada";
+    private const string SecurityTokenKey = "SecurityToken";
+    private const string ExpireDateUtcKey = "ExpireDateUtc";
     private readonly IPreferences settings;
 
     public ConfiguracoesDoUsuarioService(IPreferences settings)
@@ -31,6 +34,45 @@ internal sealed class ConfiguracoesDoUsuarioService : IConfiguracoesDoUsuarioSer
     }
 
     public bool SelecionouUmaTurma => TurmaSelecionada != null;
+
+    public string SecurityToken
+    {
+        get
+        {
+            var value = settings.Get(SecurityTokenKey, string.Empty);
+            return value;
+        }
+        set
+        {
+            settings.Set(SecurityTokenKey, value);
+        }
+    }
+
+    public bool IsLoggedIn => string.IsNullOrWhiteSpace(SecurityToken).Not();
+
+    public DateTime ExpireDateUtc
+    {
+        get
+        {
+            string? value = settings.Get(ExpireDateUtcKey, string.Empty);
+            var expireDate = value is null ? DateTime.MinValue : DateTime.ParseExact(value, "dd-MM-yyyy HH:mm:ss", null);
+            return expireDate;
+        }
+        set
+        {
+            settings.Set(ExpireDateUtcKey, value.ToString("dd-MM-yyyy HH:mm:ss"));
+        }
+    }
+
+    public bool IsSessionValid()
+    {
+        return IsLoggedIn && DateTime.UtcNow < ExpireDateUtc;
+    }
+
+    public void LimparConfiguracoes()
+    {
+        settings.Clear();
+    }
 
     public Task<BaseResponse<TurmaResponse>> ObterTurmaSelecionadaAsync()
     {

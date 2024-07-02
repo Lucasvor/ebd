@@ -4,7 +4,7 @@ namespace Ebd.MobileApp.ViewModels.Home;
 
 internal sealed partial class HomeViewModel : BasePageViewModel
 {
-    public HomeViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger) : base(diagnosticService, dialogService, logger)
+    public HomeViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, logger, analyticsService)
     {
     }
 

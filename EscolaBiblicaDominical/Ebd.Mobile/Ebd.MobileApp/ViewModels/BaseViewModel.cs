@@ -9,14 +9,16 @@ namespace Ebd.Mobile.ViewModels
     internal abstract partial class BaseViewModel : ObservableObject
     {
         protected readonly IDiagnosticService DiagnosticService;
+        protected readonly IAnalyticsService AnalyticsService;
         protected readonly IDialogService DialogService;
         protected readonly ILoggerService Logger;
 
-        protected BaseViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger)
+        protected BaseViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger, IAnalyticsService analyticsService)
         {
             DiagnosticService = diagnosticService;
             DialogService = dialogService;
             Logger = logger;
+            AnalyticsService = analyticsService;
         }
 
         [ObservableProperty]

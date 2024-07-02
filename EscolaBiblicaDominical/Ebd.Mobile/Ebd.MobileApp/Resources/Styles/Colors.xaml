@@ -13,6 +13,7 @@
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="Accent">#FD6F02</Color>
 
+
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Magenta">#D600AA</Color>
@@ -27,6 +28,21 @@
     <Color x:Key="Gray600">#404040</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
+
+    <Color x:Key="StatusbarColor">#123456</Color>
+    <Color x:Key="NavBarColor">#1976D2</Color>
+
+    <Color x:Key="RequiredStarColor">#F5F5F5</Color>
+    <Color x:Key="PlaceholderColor">#C0C0C0</Color>
+
+    <Color x:Key="SeparatorColor">#CCCCCC</Color>
+    <Color x:Key="ListBackgroundColor">#F2F2F2</Color>
+    <Color x:Key="ListItemSelectedBackgroundColor">#F2F2F2</Color>
+
+    <OnPlatform x:Key="NavigationBarTextColor" x:TypeArguments="Color">
+        <On Platform="iOS" Value="{StaticResource Gray200}" />
+        <On Platform="iAndroid" Value="{StaticResource Gray200}" />
+    </OnPlatform>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />

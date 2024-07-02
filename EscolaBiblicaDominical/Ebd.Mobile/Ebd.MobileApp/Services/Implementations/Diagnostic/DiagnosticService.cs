@@ -1,6 +1,4 @@
 ﻿using Ebd.Mobile.Services.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace Ebd.Mobile.Services.Implementations.Diagnostic
 {

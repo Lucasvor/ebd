@@ -17,6 +17,19 @@ namespace Ebd.Mobile.Services.Implementations.Dialog
 
         public Task DisplayAlert(string title, string message, string cancel) => DisplayAlert(title, message, "Ok", cancel);
 
+        public async Task<bool> DisplayConfirmation(string? title, string message, string? accept, string? cancel = null)
+        {
+            if (Application.Current?.MainPage == null)
+            {
+                Debug.WriteLine("Application.Current?.MainPage was null when trying to DisplayAlert");
+                return await Task.FromResult(false);
+            }
+            accept ??= "Sim";
+            cancel ??= "Não";
+
+            return await Application.Current.MainPage.DisplayAlert(title, message, accept, cancel);
+        }
+
         public Task DisplayAlert(Exception ex)
         {
             return ex switch

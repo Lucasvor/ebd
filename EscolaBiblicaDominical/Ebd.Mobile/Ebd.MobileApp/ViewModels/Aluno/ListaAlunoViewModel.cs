@@ -17,9 +17,11 @@ namespace Ebd.Mobile.ViewModels.Aluno
         private readonly ITurmaService _turmaService;
         private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
 
-        public ListaAlunoViewModel(ITurmaService turmaService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAlunoService alunoService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService) : base(diagnosticService, dialogService, loggerService)
+        public ListaAlunoViewModel(ITurmaService turmaService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IAlunoService alunoService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             Title = "Alunos";
+            SetupScreenName("Inicial");
+
             _turmaService = turmaService;
             _alunoService = alunoService;
             this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
@@ -87,7 +89,7 @@ namespace Ebd.Mobile.ViewModels.Aluno
                     execute: NewStudentCommandExecute,
                     onException: CommandOnException);
 
-        public override async Task OnAppearingAsync(object args)
+        public override async Task OnAppearingAsync(object? args = null)
         {
             if (IsBusy) return;
             try

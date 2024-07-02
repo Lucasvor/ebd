@@ -6,7 +6,7 @@ namespace Ebd.MobileApp.ViewModels.Welcome;
 
 internal sealed partial class WelcomeViewModel : BasePageViewModel
 {
-    public WelcomeViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger) : base(diagnosticService, dialogService, logger)
+    public WelcomeViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, logger, analyticsService)
     {
     }
 

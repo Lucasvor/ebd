@@ -6,7 +6,7 @@ namespace Ebd.Mobile.Repository
 {
     public sealed class Repository : IRepository
     {
-        private static LiteDatabase _dataBase;
+        private static LiteDatabase? _dataBase;
         private static LiteDatabase DataBase
         {
             get

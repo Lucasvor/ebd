@@ -6,7 +6,8 @@ public class TurmaResponse
     public string Nome { get; set; }
     public int IdadeMinima { get; set; }
     public int IdadeMaxima { get; set; }
-    public string FaixaIdadeNome => $"{IdadeMinima} à {IdadeMaxima} - {Nome}";
+    public string FaixaIdadeNome => $"{FaixaIdade} - {Nome}";
+    public string FaixaIdade => $"{IdadeMinima} à {IdadeMaxima}";
 
     public override bool Equals(object obj)
     {

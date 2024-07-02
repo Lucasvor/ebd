@@ -1,4 +1,5 @@
-﻿using Ebd.Mobile.Repository;
+﻿using CommunityToolkit.Maui;
+using Ebd.Mobile.Repository;
 using Ebd.Mobile.Services.Implementations;
 using Ebd.Mobile.Services.Implementations.Diagnostic;
 using Ebd.Mobile.Services.Implementations.Dialog;
@@ -12,12 +13,14 @@ using Ebd.Mobile.Views.Aluno;
 using Ebd.Mobile.Views.Chamada;
 using Ebd.MobileApp.Network;
 using Ebd.MobileApp.Services.Implementations;
+using Ebd.MobileApp.Services.Implementations.Analytics;
 using Ebd.MobileApp.Services.Implementations.BottomSheets;
 using Ebd.MobileApp.Services.Interfaces.BottomSheets;
 using Ebd.MobileApp.ViewModels.Home;
 using Ebd.MobileApp.ViewModels.Perfil;
 using Ebd.MobileApp.ViewModels.Turma;
 using Ebd.MobileApp.ViewModels.Welcome;
+using Ebd.MobileApp.Views.Perfil;
 using Ebd.MobileApp.Views.Welcome;
 
 namespace Ebd.Mobile
@@ -59,6 +62,7 @@ namespace Ebd.Mobile
             //services.AddSingleton<IApiService, ApiService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddSingleton<IDiagnosticService, DiagnosticService>();
+            services.AddSingleton<IAnalyticsService, AnalyticsService>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<INetworkService, NetworkService>();
             services.AddSingleton(Connectivity.Current);
@@ -101,6 +105,7 @@ namespace Ebd.Mobile
             services.AddTransient<EscolherTurmaPage>();
             services.AddTransient<NovoAlunoPage>();
             services.AddTransient<AdicionarResponsavelPage>();
+            services.AddTransient<PerfilPage>();
 
             return services;
         }
@@ -145,7 +150,7 @@ namespace Ebd.Mobile
             if (instance is T instanceT)
                 return instanceT;
 
-            throw new ArgumentNullException("Service não registrado");
+            throw new ArgumentNullException("Serviço não registrado");
         }
     }
 }

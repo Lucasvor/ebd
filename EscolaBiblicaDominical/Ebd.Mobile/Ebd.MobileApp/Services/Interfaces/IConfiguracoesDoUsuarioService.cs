@@ -6,6 +6,11 @@ internal interface IConfiguracoesDoUsuarioService
 {
     public bool SelecionouUmaTurma { get; }
     public TurmaResponse? TurmaSelecionada { get; set; }
-    //Task<BaseResponse<EmptyResponse>> SelecionarAsync(SelecionarTurmaRequest request);
-    //Task<BaseResponse<TurmaResponse>> ObterTurmaSelecionadaAsync();
+
+    public string SecurityToken { get; set; }
+    public bool IsLoggedIn { get; }
+    public DateTime ExpireDateUtc { get; set; }
+
+    public bool IsSessionValid();
+    public void LimparConfiguracoes();
 }

@@ -10,7 +10,7 @@ namespace Ebd.Mobile.ViewModels
         private string text;
         private string description;
 
-        public ItemDetailViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger) : base(diagnosticService, dialogService, logger)
+        public ItemDetailViewModel(IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService logger, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, logger, analyticsService)
         {
         }
 

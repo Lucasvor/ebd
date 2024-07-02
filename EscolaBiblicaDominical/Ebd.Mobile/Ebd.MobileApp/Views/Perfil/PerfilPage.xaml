@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Ebd.MobileApp.Views.Perfil.PerfilPage"
-             Title="PerfilPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="Ebd.MobileApp.Views.Perfil.PerfilPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}"
+    BackgroundColor="{StaticResource Primary}">
+    <NavigationPage.TitleView>
+        <Label
+            FontSize="18"
+            HorizontalOptions="Start"
+            Text="{Binding Title}"
+            TextColor="White"
+            VerticalOptions="Center" />
+    </NavigationPage.TitleView>
+    <ScrollView>
+        <Grid RowDefinitions="*,1,Auto">
+            <VerticalStackLayout Margin="24,24">
+                <Label
+                    FontSize="Medium"
+                    Text="Nome"
+                    TextColor="{StaticResource Secondary}" />
+                <Label
+                    FontSize="Medium"
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding Nome}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AlterarTurmaCommand}" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+
+            <BoxView
+                Grid.Row="1"
+                HeightRequest="1"
+                Color="{StaticResource Gray200}" />
+
+            <VerticalStackLayout Grid.Row="2" Margin="24,24">
+                <Label
+                    FontSize="Medium"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Logout">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LogoutCommand}" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

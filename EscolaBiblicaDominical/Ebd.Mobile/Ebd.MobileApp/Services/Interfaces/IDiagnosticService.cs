@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Ebd.Mobile.Services.Interfaces
+﻿namespace Ebd.Mobile.Services.Interfaces
 {
     public interface IDiagnosticService
     {

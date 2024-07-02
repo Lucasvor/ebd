@@ -5,6 +5,7 @@ using Ebd.Mobile.Services.Interfaces;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.Views.Chamada;
 using Ebd.MobileApp.Services.Interfaces.BottomSheets;
+using Ebd.MobileApp.ViewModels.Perfil;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
 
@@ -13,15 +14,17 @@ namespace Ebd.MobileApp.ViewModels.Home
     internal sealed partial class HomeViewModel : BasePageViewModel
     {
         private readonly ISyncService syncService;
-        private readonly ILoggerService loggerService;
         private readonly IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService;
         private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
 
-        public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService) : base(diagnosticService, dialogService, loggerService)
+        public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             this.syncService = syncService;
-            this.loggerService = loggerService;
             this.escolherTurmaBottomSheetService = escolherTurmaBottomSheetService;
+            this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
+
+            SetupScreenName("Inicio");
+            Title = "Inicio";
 
             GoToAlunoPageCommand = new AsyncCommand(
                 execute: ExecuteGoToAlunoPageCommand,
@@ -30,11 +33,15 @@ namespace Ebd.MobileApp.ViewModels.Home
             GoToEscolherTurmaPageCommand = new AsyncCommand(
                 execute: ExecuteGoToEscolherTurmaPageCommand,
                 onException: CommandOnException);
-            this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
+
+            ClicouNaAbaPerfilCommand = new AsyncCommand(
+                execute: ExecutarClicouNaAbaPerfilCommand,
+                onException: CommandOnException);
+
         }
 
         public AsyncCommand GoToAlunoPageCommand { get; private set; }
-
+        public AsyncCommand ClicouNaAbaPerfilCommand { get; private set; }
         public AsyncCommand GoToEscolherTurmaPageCommand { get; }
 
         [ObservableProperty]
@@ -82,9 +89,21 @@ namespace Ebd.MobileApp.ViewModels.Home
             await Shell.Current.GoToAsync($"{nameof(EscolherTurmaPage)}");
         }
 
-        internal void OnAppearing()
+        private async Task ExecutarClicouNaAbaPerfilCommand()
         {
-            MainThread.InvokeOnMainThreadAsync(async () =>
+            if (IsBusy) return;
+
+            IsBusy = true;
+            await Navigate<PerfilPageViewModel>();
+            //await Shell.Current.GoToAsync(PageConstant.Perfil.Detalhes);
+            IsBusy = false;
+        }
+
+        public async override Task OnAppearingAsync(object? parameter = null)
+        {
+            await base.OnAppearingAsync(parameter);
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 try
                 {
@@ -98,7 +117,7 @@ namespace Ebd.MobileApp.ViewModels.Home
                 }
                 catch (Exception exception)
                 {
-                    loggerService.LogError($"{nameof(HomeViewModel)}::{nameof(OnAppearing)}", exception);
+                    Logger.LogError($"{nameof(HomeViewModel)}::{nameof(OnAppearingAsync)}", exception);
                 }
             });
         }

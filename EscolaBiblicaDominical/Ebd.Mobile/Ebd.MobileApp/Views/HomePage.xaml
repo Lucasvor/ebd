@@ -30,14 +30,14 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    FontFamily="SoraRegular"
+                    FontFamily="OpenSansRegular"
                     Text="Location"
                     TextColor="#B7B7B7" />
 
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
-                    FontFamily="SoraSemiBold"
+                    FontFamily="OpenSansBold"
                     Text="Bilzen, Tanjungbalai"
                     TextColor="#DDDDDD" />
 
@@ -91,7 +91,7 @@
                         TextColor="Black"
                         VerticalOptions="Center">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" />
+                            <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" NumberOfTapsRequired="1" />
                         </Label.GestureRecognizers>
                     </Label>
                     <Label
@@ -104,7 +104,7 @@
                         TextColor="Black"
                         VerticalOptions="Center">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" />
+                            <TapGestureRecognizer Command="{Binding GoToAlunoPageCommand}" NumberOfTapsRequired="1" />
                         </Label.GestureRecognizers>
                     </Label>
 
@@ -133,7 +133,11 @@
                         HorizontalOptions="Center"
                         Text="{x:Static icons:FontAwesomeIcon.User}"
                         TextColor="Black"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClicouNaAbaPerfilCommand}" NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+                    </Label>
                     <Label
                         Grid.Row="1"
                         Grid.Column="7"
@@ -142,7 +146,11 @@
                         HorizontalTextAlignment="Center"
                         Text="Profile"
                         TextColor="Black"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClicouNaAbaPerfilCommand}" NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </Grid>
             </Border>
         </Grid>

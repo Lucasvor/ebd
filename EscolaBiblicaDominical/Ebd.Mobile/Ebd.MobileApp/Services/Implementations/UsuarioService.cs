@@ -9,17 +9,31 @@ namespace Ebd.MobileApp.Services.Implementations
     internal class UsuarioService : BaseService, IUsuarioService
     {
         private const string PathToService = "usuario";
+        private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
 
-        public UsuarioService(ILoggerService loggerService, INetworkService networkService) : base(loggerService, networkService)
+        public UsuarioService(ILoggerService loggerService, INetworkService networkService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService) : base(loggerService, networkService)
         {
+            this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
         }
 
         public async Task<BaseResponse<EfetuarLoginResponse>> EfetuarLoginAsync(EfetuarLoginRequest request)
         {
             await Task.Delay(1000);
-            return BaseResponse<EfetuarLoginResponse>.Sucesso(new EfetuarLoginResponse { Nome = "Oziel Guimarães de Paula Silva", Token = "0923jhedfojhn28hHJhIHIHHuieuui" });
+            var response = BaseResponse<EfetuarLoginResponse>.Sucesso(new EfetuarLoginResponse { Nome = "Oziel Guimarães de Paula Silva", Token = "0923jhedfojhn28hHJhIHIHHuieuui" });
 
-            return await GetAndRetry<EfetuarLoginResponse>($"{PathToService}/login", retryCount: DefaultRetryCount, OnRetry);
+            //var responsee = await GetAndRetry<EfetuarLoginResponse>($"{PathToService}/login", retryCount: DefaultRetryCount, OnRetry);
+            if (response.HasError)
+            {
+                return response;
+            }
+            else
+            {
+                configuracoesDoUsuarioService.SecurityToken = response.Data.Token;
+                configuracoesDoUsuarioService.ExpireDateUtc = DateTime.UtcNow.AddHours(1);
+
+                return response;
+            }
+
         }
     }
 }
