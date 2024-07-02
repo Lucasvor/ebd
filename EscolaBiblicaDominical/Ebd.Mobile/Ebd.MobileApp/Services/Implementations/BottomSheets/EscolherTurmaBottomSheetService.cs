@@ -7,14 +7,15 @@ public class EscolherTurmaBottomSheetService : IEscolherTurmaBottomSheetService
 {
     private EscolherTurmaBottomSheet? EscolherTurmaBottomSheet;
 
-    public async Task AbrirBottomSheetAsync()
+    public async Task AbrirBottomSheetAsync(bool usuarioPodeFechar)
     {
-        EscolherTurmaBottomSheet = new EscolherTurmaBottomSheet
+        EscolherTurmaBottomSheet ??= new EscolherTurmaBottomSheet
         {
             HasHandle = true,
-            IsCancelable = false
+            IsCancelable = usuarioPodeFechar
         };
 
+        await EscolherTurmaBottomSheet.LoadDataAsync();
         await EscolherTurmaBottomSheet.ShowAsync();
     }
 

@@ -32,7 +32,7 @@ internal sealed class EscolherTurmaBottomSheetViewModel : BaseBottomSheetViewMod
 
     public ICommand TurmaSelecionadaCommand { get; set; }
 
-    public override async Task OnAppearingAsync(object? parameter = null)
+    public override async Task LoadDataAsync(object? parameter = null)
     {
         DialogService.ShowLoading("Carregando as turmas...");
         var respostaTurmas = await turmaService.ObterTodasAsync();
@@ -67,7 +67,9 @@ internal sealed class EscolherTurmaBottomSheetViewModel : BaseBottomSheetViewMod
         Logger.LogInformation($"Turma selecionada: {turma.Nome}");
 
         configuracoesDoUsuarioService.TurmaSelecionada = turma;
-
-        await MainThread.InvokeOnMainThreadAsync(escolherTurmaBottomSheetService.FecharBottomSheetAsync);
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            await escolherTurmaBottomSheetService.FecharBottomSheetAsync();
+        });
     }
 }

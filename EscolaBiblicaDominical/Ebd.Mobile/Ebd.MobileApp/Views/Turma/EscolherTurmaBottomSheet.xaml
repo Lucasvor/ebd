@@ -3,11 +3,15 @@
     x:Class="Ebd.MobileApp.Views.Turma.EscolherTurmaBottomSheet"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:response="clr-namespace:Ebd.Mobile.Services.Responses.Turma"
     xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
     x:Name="ThisBottomSheet"
     Padding="32,32"
     BackgroundColor="{StaticResource White}">
+    <the49:BottomSheet.Resources>
+        <mct:IsListNotNullOrEmptyConverter x:Key="IsListNotNullOrEmpty" />
+    </the49:BottomSheet.Resources>
     <the49:BottomSheet.Detents>
         <the49:ContentDetent IsDefault="True" />
         <the49:RatioDetent Ratio="0.50" />
@@ -20,8 +24,8 @@
             VerticalOptions="CenterAndExpand" />
 
         <ListView
-            x:Name="TurmasListView"
             HasUnevenRows="True"
+            IsVisible="{Binding Turmas, Converter={StaticResource IsListNotNullOrEmpty}}"
             ItemsSource="{Binding Turmas}"
             SelectionMode="None">
             <ListView.ItemTemplate>

@@ -2,6 +2,6 @@
 
 public interface IEscolherTurmaBottomSheetService : IDisposable
 {
-    Task AbrirBottomSheetAsync();
+    Task AbrirBottomSheetAsync(bool usuarioPodeFechar);
     Task FecharBottomSheetAsync();
 }

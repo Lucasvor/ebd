@@ -15,9 +15,10 @@ namespace Ebd.MobileApp.ViewModels.Home
     {
         private readonly ISyncService syncService;
         private readonly IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService;
+        private readonly ITurmaService turmaService;
         private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
 
-        public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IAnalyticsService analyticsService) : base(diagnosticService, dialogService, loggerService, analyticsService)
+        public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IAnalyticsService analyticsService, ITurmaService turmaService) : base(diagnosticService, dialogService, loggerService, analyticsService)
         {
             this.syncService = syncService;
             this.escolherTurmaBottomSheetService = escolherTurmaBottomSheetService;
@@ -37,7 +38,7 @@ namespace Ebd.MobileApp.ViewModels.Home
             ClicouNaAbaPerfilCommand = new AsyncCommand(
                 execute: ExecutarClicouNaAbaPerfilCommand,
                 onException: CommandOnException);
-
+            this.turmaService = turmaService;
         }
 
         public AsyncCommand GoToAlunoPageCommand { get; private set; }
@@ -46,7 +47,6 @@ namespace Ebd.MobileApp.ViewModels.Home
 
         [ObservableProperty]
         HomeTab _currentTab;
-
 
         [RelayCommand]
         void GoToTab(HomeTab destinationTab)
@@ -95,31 +95,35 @@ namespace Ebd.MobileApp.ViewModels.Home
 
             IsBusy = true;
             await Navigate<PerfilPageViewModel>();
-            //await Shell.Current.GoToAsync(PageConstant.Perfil.Detalhes);
             IsBusy = false;
         }
 
         public async override Task OnAppearingAsync(object? parameter = null)
         {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
             await base.OnAppearingAsync(parameter);
 
-            await MainThread.InvokeOnMainThreadAsync(async () =>
+            if (configuracoesDoUsuarioService.SelecionouUmaTurma.Not())
             {
-                try
+                await MainThread.InvokeOnMainThreadAsync(async () =>
                 {
-                    if (configuracoesDoUsuarioService.SelecionouUmaTurma.Not())
+                    try
                     {
-                        await escolherTurmaBottomSheetService.AbrirBottomSheetAsync();
-                        return;
+                        await escolherTurmaBottomSheetService.AbrirBottomSheetAsync(false);
+                    }
+                    catch (Exception exception)
+                    {
+                        Logger.LogError($"{nameof(HomeViewModel)}::{nameof(OnAppearingAsync)}", exception);
                     }
 
-                    await InitializeHomeTab();
-                }
-                catch (Exception exception)
-                {
-                    Logger.LogError($"{nameof(HomeViewModel)}::{nameof(OnAppearingAsync)}", exception);
-                }
-            });
+                });
+            }
+
+            IsBusy = false;
         }
     }
 }

@@ -17,7 +17,7 @@ internal abstract class BaseBottomSheetViewModel : BaseViewModel
         BottomSheetName = name;
     }
 
-    public virtual Task OnAppearingAsync(object? parameter = null)
+    public virtual Task LoadDataAsync(object? parameter = null)
     {
         var nameWasDefined = string.IsNullOrWhiteSpace(BottomSheetName).Not();
         if (nameWasDefined)

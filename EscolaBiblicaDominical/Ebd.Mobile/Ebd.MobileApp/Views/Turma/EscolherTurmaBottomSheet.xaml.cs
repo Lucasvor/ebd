@@ -12,6 +12,10 @@ public partial class EscolherTurmaBottomSheet : BottomSheet
     {
         InitializeComponent();
         BindingContext = viewModel = DependencyInjection.GetService<EscolherTurmaBottomSheetViewModel>();
-        MainThread.BeginInvokeOnMainThread(async () => await viewModel.OnAppearingAsync());
+    }
+
+    public async Task LoadDataAsync()
+    {
+        await viewModel.LoadDataAsync();
     }
 }

@@ -53,7 +53,7 @@ internal sealed partial class PerfilPageViewModel : BasePageViewModel
         if (IsBusy) return;
 
         IsBusy = true;
-        await escolherTurmaBottomSheetService.AbrirBottomSheetAsync();
+        await escolherTurmaBottomSheetService.AbrirBottomSheetAsync(true);
         IsBusy = false;
     }
 
