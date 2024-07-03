@@ -34,6 +34,10 @@ internal sealed class EscolherTurmaBottomSheetViewModel : BaseBottomSheetViewMod
 
     public override async Task LoadDataAsync(object? parameter = null)
     {
+        if (IsBusy) return;
+
+        IsBusy = true;
+
         DialogService.ShowLoading("Carregando as turmas...");
         var respostaTurmas = await turmaService.ObterTodasAsync();
         HideLoading();
@@ -53,6 +57,8 @@ internal sealed class EscolherTurmaBottomSheetViewModel : BaseBottomSheetViewMod
                 {
                     Turmas.Add(turma);
                 }
+
+                OnPropertyChanged(nameof(Turmas));
             });
         }
         else
@@ -60,6 +66,8 @@ internal sealed class EscolherTurmaBottomSheetViewModel : BaseBottomSheetViewMod
             Logger.LogError("Erro ao obter as turmas", respostaTurmas.Exception);
             await DialogService.DisplayAlert("Oops", "Erro ao obter o obter as turmas");
         }
+
+        IsBusy = false;
     }
 
     private async Task ExecutarTurmaSelecionadaCommand(TurmaResponse turma)

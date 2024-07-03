@@ -23,6 +23,10 @@ public static class MauiProgram
             })
             .UseMauiCommunityToolkit();
 
+#if ANDROID
+        builder.Services.AddSingleton(UserDialogs.Instance);
+#endif
+
         builder.Services
             .ConfigureAndHandleHttpClient()
             .ConfigureServices()

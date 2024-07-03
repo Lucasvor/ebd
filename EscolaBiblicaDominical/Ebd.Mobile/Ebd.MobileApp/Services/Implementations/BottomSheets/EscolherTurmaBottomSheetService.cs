@@ -16,7 +16,11 @@ public class EscolherTurmaBottomSheetService : IEscolherTurmaBottomSheetService
         };
 
         await EscolherTurmaBottomSheet.LoadDataAsync();
-        await EscolherTurmaBottomSheet.ShowAsync();
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            await Task.Delay(150);
+            await EscolherTurmaBottomSheet.ShowAsync();
+        });
     }
 
     public async Task FecharBottomSheetAsync()

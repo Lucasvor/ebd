@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Ebd.Mobile;
 
 namespace Ebd.MobileApp
 {

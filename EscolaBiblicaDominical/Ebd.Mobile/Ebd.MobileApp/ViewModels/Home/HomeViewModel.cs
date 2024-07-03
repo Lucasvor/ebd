@@ -1,13 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Ebd.CrossCutting.Common.Extensions;
 using Ebd.Mobile.Services.Interfaces;
+using Ebd.Mobile.Services.Responses.Turma;
 using Ebd.Mobile.ViewModels.Aluno;
 using Ebd.Mobile.Views.Chamada;
 using Ebd.MobileApp.Services.Interfaces.BottomSheets;
 using Ebd.MobileApp.ViewModels.Perfil;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
+using System.Collections.ObjectModel;
 
 namespace Ebd.MobileApp.ViewModels.Home
 {
@@ -16,6 +17,7 @@ namespace Ebd.MobileApp.ViewModels.Home
         private readonly ISyncService syncService;
         private readonly IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService;
         private readonly ITurmaService turmaService;
+        private readonly IDialogService dialogService;
         private readonly IConfiguracoesDoUsuarioService configuracoesDoUsuarioService;
 
         public HomeViewModel(ISyncService syncService, IDiagnosticService diagnosticService, IDialogService dialogService, ILoggerService loggerService, IEscolherTurmaBottomSheetService escolherTurmaBottomSheetService, IConfiguracoesDoUsuarioService configuracoesDoUsuarioService, IAnalyticsService analyticsService, ITurmaService turmaService) : base(diagnosticService, dialogService, loggerService, analyticsService)
@@ -23,6 +25,8 @@ namespace Ebd.MobileApp.ViewModels.Home
             this.syncService = syncService;
             this.escolherTurmaBottomSheetService = escolherTurmaBottomSheetService;
             this.configuracoesDoUsuarioService = configuracoesDoUsuarioService;
+            this.turmaService = turmaService;
+            this.dialogService = dialogService;
 
             SetupScreenName("Inicio");
             Title = "Inicio";
@@ -38,7 +42,6 @@ namespace Ebd.MobileApp.ViewModels.Home
             ClicouNaAbaPerfilCommand = new AsyncCommand(
                 execute: ExecutarClicouNaAbaPerfilCommand,
                 onException: CommandOnException);
-            this.turmaService = turmaService;
         }
 
         public AsyncCommand GoToAlunoPageCommand { get; private set; }
@@ -47,6 +50,9 @@ namespace Ebd.MobileApp.ViewModels.Home
 
         [ObservableProperty]
         HomeTab _currentTab;
+
+        public ObservableCollection<TurmaResponse> Turmas { get; } = new ObservableCollection<TurmaResponse>(new List<TurmaResponse> { new TurmaResponse { TurmaId = 1, Nome = "Turma 1", IdadeMinima = 22, IdadeMaxima = 90 } });
+
 
         [RelayCommand]
         void GoToTab(HomeTab destinationTab)
@@ -106,22 +112,7 @@ namespace Ebd.MobileApp.ViewModels.Home
             IsBusy = true;
 
             await base.OnAppearingAsync(parameter);
-
-            if (configuracoesDoUsuarioService.SelecionouUmaTurma.Not())
-            {
-                await MainThread.InvokeOnMainThreadAsync(async () =>
-                {
-                    try
-                    {
-                        await escolherTurmaBottomSheetService.AbrirBottomSheetAsync(false);
-                    }
-                    catch (Exception exception)
-                    {
-                        Logger.LogError($"{nameof(HomeViewModel)}::{nameof(OnAppearingAsync)}", exception);
-                    }
-
-                });
-            }
+            await CertificarQueTurmaFoiSelecionada();
 
             IsBusy = false;
         }

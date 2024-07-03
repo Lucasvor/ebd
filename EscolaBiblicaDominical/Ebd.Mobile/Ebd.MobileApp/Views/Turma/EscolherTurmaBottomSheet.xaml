@@ -23,12 +23,11 @@
             Text="Escolha a turma"
             VerticalOptions="CenterAndExpand" />
 
-        <ListView
-            HasUnevenRows="True"
+        <CollectionView
             IsVisible="{Binding Turmas, Converter={StaticResource IsListNotNullOrEmpty}}"
-            ItemsSource="{Binding Turmas}"
+            ItemsSource="{Binding Source={x:Reference ThisBottomSheet}, Path=BindingContext.Turmas}"
             SelectionMode="None">
-            <ListView.ItemTemplate>
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <VerticalStackLayout Padding="10">
@@ -55,7 +54,7 @@
                         </VerticalStackLayout>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </the49:BottomSheet>
